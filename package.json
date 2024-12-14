@@ -94,15 +94,9 @@
     "eject": "react-scripts eject",
     "ghp": "react-scripts build && gh-pages -d build"
   },
-  
-    "engines": {
-      "node": "14.18.0"
-    },
-  
   "eslintConfig": {
     "extends": "react-app"
   },
-  
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -111,10 +105,8 @@
   ],
   "devDependencies": {
     "@babel/runtime": "^7.0.0",
-    "@grpc/proto-loader": "^0.7.13",
     "axios-mock-adapter": "^1.17.0",
     "cross-env": "^5.2.0",
     "gh-pages": "^2.1.1"
   }
-  
 }
