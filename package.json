@@ -98,7 +98,7 @@
     "extends": "react-app"
   },
   "engines": {
-  "node": "14.18.0"
+  "node": "22.x"
 },
   "browserslist": [
     ">0.2%",
