@@ -2,7 +2,7 @@
   "name": "globits-react",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://haiThanhTran.github.io/Manage_Employee",
+  "homepage": "/",
   "dependencies": {
     "@date-io/date-fns": "^1.3.6",
     "@grpc/grpc-js": "^1.12.4",
