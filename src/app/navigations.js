@@ -21,7 +21,7 @@ export const navigations = [
       {
         name: "Thêm Nhân Viên",
         isVisible: true,
-        path: ConstantList.ROOT_PATH + "manage_employee",
+        path: ConstantList.ROOT_PATH + "add_employee",
         icon: "keyboard_arrow_right",
       },
       // {
