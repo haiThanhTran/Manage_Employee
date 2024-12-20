@@ -26,6 +26,7 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import EmployeeTab from "./AddEmployeeTabs/EmployeeTab";
 import CertificateTab from "./AddEmployeeTabs/CertificateTab";
 import FamilyTab from "./AddEmployeeTabs/FamilyTab";
+import ProfileEmployeeDialog from "../ProfileEmployee/ProfileEmployeeDialog";
 
 import {
   ValidatorForm,
@@ -40,6 +41,7 @@ import {
 } from "../../const/EmployeeConst";
 import { TabPanel, a11yProps } from "../../component/CustomTab";
 import { useDispatch, useSelector } from "react-redux";
+import { getCertificate } from "app/redux/actions/CertificateActions";
 
 const DialogActions = withStyles((theme) => ({
   root: {
@@ -52,19 +54,30 @@ const DialogActions = withStyles((theme) => ({
 
 const EmployeeDialog = ({ open, handleClose, employeeId }) => {
   const [tab, setTab] = useState(0);
+  const [showProfile, setShowProfile] = useState(false);
   const { currentEmployee } = useSelector((state) => state.employees);
+  const { listCertificate, success } = useSelector(
+    (state) => state.certificate
+  );
+
   const dispatch = useDispatch();
   const refAddEmployee = useRef(null);
   console.log("employeeId", employeeId);
   useEffect(() => {
-    dispatch(getEmployeeById(employeeId));
-  }, []);
+    dispatch(getEmployeeById(employeeId)) &&
+      dispatch(getCertificate(employeeId));
+    console.log("listCertificate", listCertificate);
+    console.log("employeeId", employeeId);
+  }, [employeeId]);
 
   const handleChangeTab = (e, newValue) => {
     if (newValue !== TAB_EMPLOYEE) {
-      if (currentEmployee?.id) {
+      if (currentEmployee?.data?.id) {
+        console.log("currentEmployee", currentEmployee);
         setTab(newValue);
       } else {
+        console.log("currentEmployee", currentEmployee);
+
         toast.error("Vui lòng lưu thông tin nhân viên trước !");
       }
     } else {
@@ -83,16 +96,18 @@ const EmployeeDialog = ({ open, handleClose, employeeId }) => {
     if (currentEmployee?.data?.id) {
       dispatch(updateEmployee(data?.id, data));
       handleClose();
-      window.location.reload();
     } else {
       dispatch(createEmployee(data));
       handleClose();
-      window.location.reload();
     }
   };
 
   const handleRegister = () => {
-    // setShowProfile(true);
+    setShowProfile(true);
+  };
+
+  const handleDialogClose = () => {
+    setShowProfile(false);
   };
 
   return (
@@ -129,24 +144,36 @@ const EmployeeDialog = ({ open, handleClose, employeeId }) => {
               </Tabs>
             </AppBar>
             <TabPanel value={tab} index={TAB_EMPLOYEE}>
-              
-                <EmployeeTab
-                  employeeData={currentEmployee?.data}
-                  handleClose={handleClose}
-                  onFormSubmit={handleFormSubmit}
-                  refAddEmployee={refAddEmployee}
-                />
-              
+              <EmployeeTab
+                employeeData={currentEmployee?.data}
+                handleClose={handleClose}
+                onFormSubmit={handleFormSubmit}
+                refAddEmployee={refAddEmployee}
+              />
             </TabPanel>
             <TabPanel value={tab} index={TAB_CERTIFICATE}>
-              <CertificateTab employee={currentEmployee} />
+              <CertificateTab
+                employee={currentEmployee?.data}
+                listCertificate={listCertificate}
+              />
             </TabPanel>
             <TabPanel value={tab} index={TAB_FAMILY}>
-              <FamilyTab employee={currentEmployee} />
+              <FamilyTab employee={currentEmployee?.data} />
             </TabPanel>
           </div>
         </DialogContent>
         <DialogActions>
+          {employeeId && (
+            <Button
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={() => handleRegister()}
+            >
+              Đăng ký
+            </Button>
+          )}
+
           {currentEmployee?.id && (
             <Button
               variant="contained"
@@ -180,6 +207,14 @@ const EmployeeDialog = ({ open, handleClose, employeeId }) => {
           </Button>
         </DialogActions>
       </Dialog>
+      {showProfile && (
+        <ProfileEmployeeDialog
+          employee={employeeId}
+          open={showProfile}
+          handleClose={handleDialogClose}
+          handleDialogEmployeeClose={handleClose}
+        />
+      )}
     </div>
   );
 };

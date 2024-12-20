@@ -20,15 +20,21 @@ import {
   getEmployees,
   getEmployeeById,
   resetCurrentEmployee,
+  deleteEmployee
 } from "../../redux/actions/EmployeeActions";
 import { ACTION_EMPLOYEE, STATUS_EMPLOYEE } from "app/const/EmployeeConst";
 import { employeeColumn } from "../../component/Column";
 import CustomTable from "../../component/CustomTable";
 import EmployeeDialog from "./EmployeeDialog";
+import ProfileEmployeeDialog from "../ProfileEmployee/ProfileEmployeeDialog";
+import { getExperience } from "app/redux/actions/ExperienceActions";
 
 const Employee = ({ t }) => {
   const [keyword, setKeyword] = useState("");
   const [pagination, setPagination] = useState({ pageSize: 5, pageIndex: 0 });
+  const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
+    useState(false);
+  const [id, setId] = useState(null);
   const { listEmployees, totalElements, currentEmployee } = useSelector(
     (state) => state.employees
   );
@@ -37,6 +43,12 @@ const Employee = ({ t }) => {
     showDialogEmployee: false,
     openConfirmDialog: false,
     showNotifyDialog: false,
+    id: null,
+  });
+  const [showProfile, setShowProfile] = useState({
+    showDialogProfile: false,
+    openConfirmProfile: false,
+    showNotifyProfile: false,
     id: null,
   });
   const dispatch = useDispatch();
@@ -60,6 +72,21 @@ const Employee = ({ t }) => {
       showDialogEmployee: true,
     });
     setEmployeeId(data?.id);
+  };
+
+  const handleDialogDelete = (certificate) => {
+    setShouldOpenConfirmationDialog(true);
+    setId(certificate?.id);
+  };
+
+  const handleDialogDeleteClose = () => {
+    setShouldOpenConfirmationDialog(false);
+  };
+
+  const handleConfirmDelete = () => {
+    console.log("id", id);
+    dispatch(deleteEmployee(id));
+    handleDialogDeleteClose();
   };
 
   const handleChangeRowsPerPage = (e) => {
@@ -90,13 +117,13 @@ const Employee = ({ t }) => {
       )}
 
       {ACTION_EMPLOYEE.DELETE.includes(rowData.submitProfileStatus) && (
-        <IconButton fontSize="small" color="error">
+        <IconButton fontSize="small" color="error" onClick={() => handleDialogDelete(rowData)}>
           <Icon color="error">delete</Icon>
         </IconButton>
       )}
 
       {ACTION_EMPLOYEE.VIEW.includes(rowData.submitProfileStatus) && (
-        <IconButton fontSize="small" color="secondary">
+        <IconButton fontSize="small" color="secondary" onClick={() => handleViewEmployee(rowData)}>
           <Icon>
             <Visibility />
           </Icon>
@@ -111,15 +138,28 @@ const Employee = ({ t }) => {
     </div>
   ));
 
+  const handleViewEmployee = (employee) => {
+    if (employee?.id) {
+      setEmployeeId(employee.id); // Chỉ set nếu id tồn tại
+      setShowProfile({
+        ...showProfile,
+        showDialogProfile: true,
+      });
+    } else {
+      console.error("employee id is undefined");
+    }
+  };
+
+
+
+
   console.log("listEmployees:", listEmployees);
   console.log("totalElements:", totalElements);
 
   return (
     <div className="m-20">
       <div className="mb-sm-30">
-        <Breadcrumb
-          routeSegments={[{ name: t("Thêm nhân viên") }]}
-        />
+        <Breadcrumb routeSegments={[{ name: t("Thêm nhân viên") }]} />
       </div>
       <Grid container spacing={2} justify="space-between">
         <Grid item lg={5} md={5} sm={5} xs={12}>
@@ -175,6 +215,28 @@ const Employee = ({ t }) => {
             />
           )}
         </Grid>
+        <ConfirmationDialog
+          open={shouldOpenConfirmationDialog}
+          onConfirmDialogClose={handleDialogDeleteClose}
+          onYesClick={() => handleConfirmDelete()}
+          title={"Xác nhận xóa"}
+          text={"Bạn có chắc chắn muốn xóa bản ghi này?"}
+          Yes={"Xóa"}
+          No={"Hủy"}
+        />
+        <ProfileEmployeeDialog
+            open={showProfile.showDialogProfile}
+            handleClose={() => {
+              setShowProfile((prevState) => ({
+                ...prevState,
+                showDialogProfile: false,
+              }));
+              dispatch(resetCurrentEmployee()); // Thêm dispatch ở đây
+            }}
+            employeeId={employeeId}
+            t={t}
+          />
+
       </Grid>
     </div>
   );

@@ -70,7 +70,7 @@ const employeeReducer = (state = initialState, action) => {
     case CREATE_EMPLOYEE_SUCCESS:
       return {
         ...state,
-        listEmployees: [...state.listEmployees, action.payload], // Thêm nhân viên mới vào danh sách
+        listEmployees: [...state.listEmployees, action.payload.data], // Thêm nhân viên mới vào danh sách
         totalElements: state.totalElements + 1, // Tăng số lượng nhân viên
         loading: false,
         error: null,
@@ -78,10 +78,11 @@ const employeeReducer = (state = initialState, action) => {
 
     // Cập nhật nhân viên thành công
     case UPDATE_EMPLOYEE_SUCCESS:
+      console.log("action.payload", action.payload);
       return {
         ...state,
         listEmployees: state.listEmployees.map((employee) =>
-          employee.id === action.payload.id ? action.payload : employee
+          employee.id === action.payload.data.id ? action.payload.data : employee
         ), // Cập nhật nhân viên trong danh sách
         currentEmployee: action.payload, // Cập nhật thông tin nhân viên hiện tại
         loading: false,

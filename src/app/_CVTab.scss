@@ -1,0 +1,128 @@
+.wrapper {
+    overflow: hidden;
+  
+    .background-left {
+      background: #fffaf2;
+      margin: 0;
+      padding: 20px;
+      border-right: 2px solid #f0f0f0; // thêm đường kẻ
+    }
+    .flex {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px; // tăng khoảng cách giữa các mục
+    }
+  
+    .typography {
+      position: relative;
+      z-index: 1000;
+      font-size: 18px;
+      font-weight: 600 !important;
+      color: #000000;
+      word-break: break-word;
+      margin-bottom: 10px;
+    }
+    .typography::after {
+      display: block;
+      content: " ";
+      height: 25%;
+      width: 100%;
+      background-color: #fff2db;
+      position: absolute;
+      z-index: -1;
+      top: 50%;
+      margin-top: -2px;
+    }
+  
+    .employee-name {
+      font-size: 32px;
+      line-height: 1em;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #333333;
+      word-break: break-word;
+      margin-bottom: 12px;
+    }
+  
+    .positon {
+      font-size: 16px;
+      text-transform: capitalize;
+      color: #666666;
+      font-weight: 400 !important;
+      word-break: break-word;
+    }
+  
+    .info-icon {
+      color: #999999; // đổi màu biểu tượng
+      margin-right: 10px; // căn chỉnh khoảng cách
+    }
+  
+    .skills,
+    .active {
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li:before {
+        content: "-";
+        padding-right: 5px;
+      }
+      textarea {
+        outline: none;
+        width: 100%;
+        resize: vertical;
+        whitespace: pre-wrap;
+      }
+    }
+  
+    .experiences {
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        list-style: none;
+      }
+      li:before {
+        content: "-";
+        padding-right: 5px;
+      }
+      textarea {
+        outline: none;
+        width: 100%;
+        resize: vertical;
+        whitespace: pre-wrap;
+      }
+    }
+    ul.language {
+      list-style: none;
+      padding: 0;
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .skill {
+          display: flex;
+        }
+      }
+    }
+    ul.active {
+      list-style: none;
+      padding: 0;
+    }
+  }
+  
+  .border-bottom {
+    border-bottom: 3px solid #ffe8c4;
+  }
+  
+  .add-icon {
+    font-size: 22px;
+  }
+  
+  .star-icon {
+    color: #000000;
+    font-size: 20px;
+  }
+  
+  

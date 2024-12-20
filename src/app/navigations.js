@@ -1,11 +1,6 @@
 import ConstantList from "./appConfig";
 export const navigations = [
-  {
-    name: "Dashboard.dashboard",
-    icon: "dashboard",
-    path: ConstantList.ROOT_PATH + "dashboard/analytics",
-    isVisible: true,
-  },
+
   
   {
     name: "Dashboard.manage",
@@ -21,7 +16,7 @@ export const navigations = [
       {
         name: "Thêm Nhân Viên",
         isVisible: true,
-        path: ConstantList.ROOT_PATH + "add_employee",
+        path: ConstantList.ROOT_PATH + "manage_employee",
         icon: "keyboard_arrow_right",
       },
       // {

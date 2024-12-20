@@ -10,6 +10,14 @@ export const formatDate = (timestamp) => {
     return `${day}/${month}/${year}`; 
   };
 
+  export function isMobile() {
+    if (window) {
+      return window.matchMedia(`(max-width: 767px)`).matches;
+    }
+    return false;
+  }
+  
+
   export const convertTimeToDate = (timestamp) => {
     if (!timestamp) return "";
   
