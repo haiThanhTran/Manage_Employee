@@ -7,7 +7,7 @@ const Employee = EgretLoadable({
 const ViewComponent = withTranslation()(Employee);
 const EmployeeRoutes = [
   {
-    path: ConstantList.ROOT_PATH + "manage_employee",
+    path: ConstantList.ROOT_PATH + "add_employee",
     exact: true,
     component: ViewComponent
   }

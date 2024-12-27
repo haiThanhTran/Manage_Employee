@@ -15,6 +15,8 @@ import TimeSheetRoutes from "./views/TimeSheet/TimeSheetRoutes";
 import ColorRoutes from "./views/Color/ColorRoutes";
 import CategoryRoutes from "./views/Category/CategoryRoutes";
 import EmployeeRoutes from "./views/AddEmployee/EmployeeRoutes";
+import ManageEmployeeRoutes from "./views/ManageEmployee/ManageEmployeeRoutes";
+import EndEmployeeRoute from "./views/EndEmployee/EndEmployeeRoute";
 
 
 const redirectRoute = [
@@ -45,7 +47,9 @@ const routes = [
   ...ColorRoutes,
   ...CategoryRoutes,
   // ...errorRoute,
-  ...EmployeeRoutes
+  ...EmployeeRoutes,
+  ...ManageEmployeeRoutes,
+  ...EndEmployeeRoute
 ];
 
 export default routes;

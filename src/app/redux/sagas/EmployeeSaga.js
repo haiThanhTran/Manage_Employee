@@ -62,6 +62,7 @@ function* createEmployeeSaga({ payload }) {
 function* updateEmployeeSaga({ payload }) {
   try {
     const { id, employeeNew } = payload;
+    console.log("payload", payload);
     const response = yield call(
       EmployeeService.updateEmployee,
       id,

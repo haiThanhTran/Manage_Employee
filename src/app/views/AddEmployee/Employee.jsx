@@ -20,16 +20,17 @@ import {
   getEmployees,
   getEmployeeById,
   resetCurrentEmployee,
-  deleteEmployee
+  deleteEmployee,
 } from "../../redux/actions/EmployeeActions";
 import { ACTION_EMPLOYEE, STATUS_EMPLOYEE } from "app/const/EmployeeConst";
 import { employeeColumn } from "../../component/Column";
 import CustomTable from "../../component/CustomTable";
 import EmployeeDialog from "./EmployeeDialog";
 import ProfileEmployeeDialog from "../ProfileEmployee/ProfileEmployeeDialog";
-import { getExperience } from "app/redux/actions/ExperienceActions";
 
 const Employee = ({ t }) => {
+  const [showNotify, setShowNotify] = useState(false);
+
   const [keyword, setKeyword] = useState("");
   const [pagination, setPagination] = useState({ pageSize: 5, pageIndex: 0 });
   const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
@@ -39,6 +40,7 @@ const Employee = ({ t }) => {
     (state) => state.employees
   );
   const [employeeId, setEmployeeId] = useState("");
+  const [notify, setNotify] = useState([]);
   const [dialogState, setDialogState] = useState({
     showDialogEmployee: false,
     openConfirmDialog: false,
@@ -65,6 +67,21 @@ const Employee = ({ t }) => {
   useEffect(() => {
     searchEmployee(keyword);
   }, [pagination.pageIndex, pagination.pageSize, keyword]);
+
+  const handleNotifyDialog = (employee) => {
+    setNotify(employee);
+    setShowNotify(true);
+    console.log("notify", notify);
+    console.log("employee_notify", employee);
+  };
+  useEffect(() => {
+    console.log("notify updated:", notify);
+  }, [notify]);
+
+  const handleCloseNotify = () => {
+    dispatch(resetCurrentEmployee());
+    setShowNotify(false);
+  };
 
   const handleOpenDialogEmployee = (data) => {
     setDialogState({
@@ -117,13 +134,21 @@ const Employee = ({ t }) => {
       )}
 
       {ACTION_EMPLOYEE.DELETE.includes(rowData.submitProfileStatus) && (
-        <IconButton fontSize="small" color="error" onClick={() => handleDialogDelete(rowData)}>
+        <IconButton
+          fontSize="small"
+          color="error"
+          onClick={() => handleDialogDelete(rowData)}
+        >
           <Icon color="error">delete</Icon>
         </IconButton>
       )}
 
       {ACTION_EMPLOYEE.VIEW.includes(rowData.submitProfileStatus) && (
-        <IconButton fontSize="small" color="secondary" onClick={() => handleViewEmployee(rowData)}>
+        <IconButton
+          fontSize="small"
+          color="secondary"
+          onClick={() => handleViewEmployee(rowData)}
+        >
           <Icon>
             <Visibility />
           </Icon>
@@ -131,7 +156,11 @@ const Employee = ({ t }) => {
       )}
 
       {ACTION_EMPLOYEE.NOTIFY.includes(rowData.submitProfileStatus) && (
-        <IconButton fontSize="small" color="secondary">
+        <IconButton
+          fontSize="small"
+          color="error"
+          onClick={() => handleNotifyDialog(rowData)}
+        >
           <Notifications />
         </IconButton>
       )}
@@ -149,9 +178,6 @@ const Employee = ({ t }) => {
       console.error("employee id is undefined");
     }
   };
-
-
-
 
   console.log("listEmployees:", listEmployees);
   console.log("totalElements:", totalElements);
@@ -224,19 +250,35 @@ const Employee = ({ t }) => {
           Yes={"Xóa"}
           No={"Hủy"}
         />
-        <ProfileEmployeeDialog
-            open={showProfile.showDialogProfile}
-            handleClose={() => {
-              setShowProfile((prevState) => ({
-                ...prevState,
-                showDialogProfile: false,
-              }));
-              dispatch(resetCurrentEmployee()); // Thêm dispatch ở đây
-            }}
-            employeeId={employeeId}
-            t={t}
+        {showNotify && (
+          <ShowDialog
+            onConfirmDialogClose={handleCloseNotify}
+            open={showNotify}
+            text={
+              notify.submitProfileStatus === "9"
+                ? notify.reasonForRefuseEndProfile || "Không có"
+                : notify.reasonForRejection || "Không"
+            }
+            title={
+              notify.submitProfileStatus === "9"
+                ? "Nội dung yêu cầu bổ sung"
+                : "Nội dung từ chối"
+            }
+            cancel={"Đóng"}
           />
-
+        )}
+        <ProfileEmployeeDialog
+          open={showProfile.showDialogProfile}
+          handleClose={() => {
+            setShowProfile((prevState) => ({
+              ...prevState,
+              showDialogProfile: false,
+            }));
+            dispatch(resetCurrentEmployee()); // Thêm dispatch ở đây
+          }}
+          employeeId={employeeId}
+          t={t}
+        />
       </Grid>
     </div>
   );

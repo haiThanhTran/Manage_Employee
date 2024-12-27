@@ -16,7 +16,19 @@ export const navigations = [
       {
         name: "Thêm Nhân Viên",
         isVisible: true,
+        path: ConstantList.ROOT_PATH + "add_employee",
+        icon: "keyboard_arrow_right",
+      },
+      {
+        name: "Quản Lý Nhân Viên",
+        isVisible: true,
         path: ConstantList.ROOT_PATH + "manage_employee",
+        icon: "keyboard_arrow_right",
+      },
+      {
+        name: "Kết Thúc Nhân Viên",
+        isVisible: true,
+        path: ConstantList.ROOT_PATH + "end_employee",
         icon: "keyboard_arrow_right",
       },
       // {
@@ -39,24 +51,24 @@ export const navigations = [
       // },
     ],
   },
-  {
-    name: "Lãnh đạo",
-    icon: "dashboard",
-    path: "",
-    isVisible: true,
-    children: [
-      {
-        name: "Lãnh đạo chờ duyệt",
-        path: ConstantList.ROOT_PATH + "directory/category",
-        icon: "keyboard_arrow_right",
-        isVisible: true,
-      },
-      {
-        name: "Lãnh đạo đã duyệt",
-        path: ConstantList.ROOT_PATH + "directory/timesheet",
-        icon: "keyboard_arrow_right",
-        isVisible: true,
-      },
-    ],
-  },
+  // {
+  //   name: "Lãnh đạo",
+  //   icon: "dashboard",
+  //   path: "",
+  //   isVisible: true,
+  //   children: [
+  //     {
+  //       name: "Lãnh đạo chờ duyệt",
+  //       path: ConstantList.ROOT_PATH + "directory/category",
+  //       icon: "keyboard_arrow_right",
+  //       isVisible: true,
+  //     },
+  //     {
+  //       name: "Lãnh đạo đã duyệt",
+  //       path: ConstantList.ROOT_PATH + "directory/timesheet",
+  //       icon: "keyboard_arrow_right",
+  //       isVisible: true,
+  //     },
+  //   ],
+  // },
 ];

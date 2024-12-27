@@ -21,6 +21,7 @@ import { isMobile } from "../../const/utils";
 import { getExperience } from "../../redux/actions/ExperienceActions";
 import LeaderSubmitDialog from "./LeaderSubmitDialog";
 import { getEmployeeById } from "app/redux/actions/EmployeeActions";
+import ResignationDialog from "./../LeaderWaiting/LeaderDialog/ResignationDialog";
 
 const DialogActions = withStyles((theme) => ({
   root: {
@@ -60,6 +61,7 @@ function ProfileEmployeeDialog(props) {
     isManage,
     handleDialogProcess,
     handleDialogEmployeeClose,
+    isEnd,
   } = props;
   const [isLeaderSubmit, setIsLeaderSubmit] = useState(false);
   const [employeeData, setEmployeeData] = useState(null);
@@ -81,16 +83,16 @@ function ProfileEmployeeDialog(props) {
   //   }, [employee]);
 
   useEffect(() => {
-    if (employeeId) { // Chỉ gọi API khi employeeId có giá trị hợp lệ
+    if (employeeId) {
+      // Chỉ gọi API khi employeeId có giá trị hợp lệ
       dispatch(getEmployeeById(employeeId));
       dispatch(getCertificate(employeeId));
       dispatch(getExperience(employeeId));
       dispatch(getFamily(employeeId));
     }
-    console.log("currentEmployee", currentEmployee);
   }, [employeeId, dispatch]);
 
-
+  console.log("currentEmployee", currentEmployee);
 
   const classes = useStyles();
 
@@ -124,6 +126,7 @@ function ProfileEmployeeDialog(props) {
                 <Tab label="Cv" {...a11yProps(0)} />
                 <Tab label="Sơ yếu lý lịch" {...a11yProps(1)} />
                 <Tab label="Văn bằng" {...a11yProps(2)} />
+                {isEnd && <Tab label="Đơn xin nghỉ việc" {...a11yProps(3)} />}
               </Tabs>
             </Grid>
             <Grid xs={10}>
@@ -134,18 +137,39 @@ function ProfileEmployeeDialog(props) {
                 />
               </TabPanel>
               <TabPanel value={tab} index={1} className={classes.tabPanel}>
-                <ProfileTab employeeFamily={familyList} employeeData={currentEmployee} t={t} />
+                <ProfileTab
+                  employeeFamily={familyList}
+                  employeeData={currentEmployee}
+                  t={t}
+                />
               </TabPanel>
               <TabPanel value={tab} index={2} className={classes.tabPanel}>
                 <CertificateTab listCertificates={listCertificate} t={t} />
               </TabPanel>
+              {isEnd &&
+              <TabPanel value={tab} index={3} className="tabPanel">
+                <ResignationDialog
+                  t={t}
+                  open={open}
+                  handleClose={handleClose}
+                  employee={currentEmployee}
+                  isManage={isManage}
+                  handleDialogEmployeeClose={handleDialogEmployeeClose}
+                  isEnd={isEnd}
+                />
+              </TabPanel>
+              }
             </Grid>
           </Grid>
         </DialogContent>
 
         <DialogActions>
-          {ACTION_EMPLOYEE.EDIT.includes(Number(currentEmployee?.data?.submitProfileStatus)) &&
-            STATUS_EMPLOYEE.ADD.includes(Number(currentEmployee?.data?.submitProfileStatus)) && (
+          {ACTION_EMPLOYEE.EDIT.includes(
+            Number(currentEmployee?.data?.submitProfileStatus)
+          ) &&
+            STATUS_EMPLOYEE.ADD.includes(
+              Number(currentEmployee?.data?.submitProfileStatus)
+            ) && (
               <div>
                 <Button
                   variant="contained"
@@ -159,7 +183,7 @@ function ProfileEmployeeDialog(props) {
             )}
           {isManage &&
             (ACTION_EMPLOYEE.PENDING_END.includes(
-                currentEmployee?.submitProfileStatus
+              currentEmployee?.submitProfileStatus
             ) ||
               STATUS_EMPLOYEE.APPROVED.includes(
                 currentEmployee?.submitProfileStatus
@@ -219,6 +243,8 @@ function ProfileEmployeeDialog(props) {
         />
       )}
 
+      
+
       {/* {showProcess && (
         <ManageEmployeeDialog
           open={showProcess}
@@ -227,9 +253,9 @@ function ProfileEmployeeDialog(props) {
           employee={employee}
           isManage={isManage}
         />
-      )}
+      )} */}
 
-      {showDialogApproval && (
+      {/* {showDialogApproval && (
         <ApprovalDialog
           t={t}
           open={showDialogApproval}
