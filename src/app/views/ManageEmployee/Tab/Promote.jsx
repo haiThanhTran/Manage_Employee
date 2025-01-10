@@ -26,7 +26,9 @@ const Promote = ({ t, currentEmployee, listLeader, isManage, isEnd }) => {
   const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
     useState(false);
   const [id, setId] = useState(null);
-  const { promoteByEmployee, success } = useSelector((state) => state.promote);
+  const { promoteByEmployee, currentPromote } = useSelector(
+    (state) => state.promote
+  );
   const [showPromote, setShowPromote] = useState(false);
   const [showNotify, setShowNotify] = useState(false);
   const dispatch = useDispatch();
@@ -38,6 +40,16 @@ const Promote = ({ t, currentEmployee, listLeader, isManage, isEnd }) => {
   useEffect(() => {
     dispatch(getLeader());
   }, []);
+
+  useEffect(() => {
+    if (currentPromote ) {
+      setPromote((prevPromote) => ({
+        ...prevPromote,
+        id: currentPromote.id, // Thêm id từ currentSalary
+      }));
+      
+    }
+  }, [currentPromote]);
 
   const handleChangInput = (e) => {
     setPromote({ ...promote, [e.target.name]: e.target.value });

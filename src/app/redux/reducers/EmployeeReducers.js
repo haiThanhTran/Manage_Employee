@@ -82,7 +82,9 @@ const employeeReducer = (state = initialState, action) => {
       return {
         ...state,
         listEmployees: state.listEmployees.map((employee) =>
-          employee.id === action.payload.data.id ? action.payload.data : employee
+          employee.id === action.payload.data.id
+            ? action.payload.data
+            : employee
         ), // Cập nhật nhân viên trong danh sách
         currentEmployee: action.payload, // Cập nhật thông tin nhân viên hiện tại
         loading: false,
@@ -103,6 +105,7 @@ const employeeReducer = (state = initialState, action) => {
 
     // Lấy thông tin nhân viên theo ID thành công
     case GET_EMPLOYEE_BY_ID_SUCCESS:
+      console.log("action.payload", action.payload);
       return {
         ...state,
         currentEmployee: action.payload, // Cập nhật nhân viên hiện tại
@@ -119,7 +122,7 @@ const employeeReducer = (state = initialState, action) => {
       };
 
     // Reset thông tin nhân viên hiện tại sau khi đóng dialog
-      case RESET_CURRENT_EMPLOYEE:
+    case RESET_CURRENT_EMPLOYEE:
       return {
         ...state,
         currentEmployee: null, // Hoặc initialState cho currentEmployee của bạn

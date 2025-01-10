@@ -23,11 +23,10 @@ const Proposal = ({ t, currentEmployee, listLeader, isManage, isEnd }) => {
   const [proposal, setProposal] = useState({
     proposalDate: new Date(),
   });
-  console.log(proposal);
   const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
     useState(false);
   const [id, setId] = useState(null);
-  const { proposalByEmployee} = useSelector(
+  const { proposalByEmployee,currentProposal} = useSelector(
     (state) => state.proposal
   );
   const [showDialog, setShowDialog] = useState(false);
@@ -37,6 +36,15 @@ const Proposal = ({ t, currentEmployee, listLeader, isManage, isEnd }) => {
   useEffect(() => {
     employee?.id && dispatch(getProposalByEmployee(employee?.id));
   }, [employee?.id]);
+
+    useEffect(() => {
+      if (currentProposal && currentProposal.id) {
+        setProposal((prevProposal) => ({
+          ...prevProposal,
+          id: currentProposal.id, // Thêm id từ currentSalary
+        }));
+      }
+    }, [currentProposal]);
 
   useEffect(() => {
     dispatch(getLeader());

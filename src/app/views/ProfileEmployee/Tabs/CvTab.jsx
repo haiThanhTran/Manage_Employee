@@ -122,6 +122,9 @@ const CvTab = (props) => {
     setId(null);
   };
 
+  console.log("listExperience", listExperience);
+  console.log("employeeCv", employeeCv);
+
   if (!employee || !listExperience) {
     return <div>Loading...</div>; // Hoặc loader
   }

@@ -21,7 +21,7 @@ const initialState = {
   promoteByLeader: [],
   success: false,
   totalElements: 0,
-  promote: {},
+  currentPromote: {},
 };
 
 const promoteReducer = function (state = initialState, action) {
@@ -67,7 +67,7 @@ const promoteReducer = function (state = initialState, action) {
       return {
         ...state,
         promoteByEmployee: [...state.promoteByEmployee, action.payload[0]],
-        promote: action.payload,
+        currentPromote: action.payload[0],
         success: true,
       };
 

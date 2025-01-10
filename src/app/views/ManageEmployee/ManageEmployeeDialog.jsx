@@ -67,7 +67,6 @@ function ManageEmployeeDialog(props) {
     setShowProfile(false);
   };
 
-  console.log("currentEmployee", currentEmployee);
   return (
     <div>
       <Dialog

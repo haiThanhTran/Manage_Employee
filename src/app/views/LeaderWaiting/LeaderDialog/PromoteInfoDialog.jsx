@@ -9,6 +9,7 @@ import {
   Tab,
   Tabs,
 } from "@material-ui/core";
+
 import MuiDialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
@@ -19,9 +20,9 @@ import {
   updatePromoteByEmployee,
 } from "app/redux/actions/PromoteActions";
 import { useDispatch } from "react-redux";
-// import ApprovalDialog from "./ApprovalDialog";
-// import AddRequestDialog from "./AddRequestDialog";
-// import ReasonRefusalDialog from "./ReasonRefusalDialog";
+import ApprovalDialog from "./ApprovalDialog";
+import AddRequestDialog from "./AddRequestDialog";
+import RefusalDialog from "./RefusalDialog";
 import "../../../../app/views/_form.scss";
 
 import moment from "moment";
@@ -95,7 +96,8 @@ const PromoteInfoDialog = ({
     setShowDialogReasonRefusalDialog(false);
   };
   const dispatch = useDispatch();
-
+  console.log("promote", promote);
+  console.log("employee", employee);
   return (
     <div>
       <Dialog
@@ -333,17 +335,16 @@ const PromoteInfoDialog = ({
                 </Button>
               </>
             ) : (
-              !ACTION_PROCESS.MANAGE.includes(promote.processStatus) && 
-              (
-              <Button
-                variant="contained"
-                color="primary"
-                type="button"
-                className="mr-12"
-                onClick={() => handleDialogSubmit()}
-              >
-                Gửi lãnh đạo
-              </Button>
+              !ACTION_PROCESS.MANAGE.includes(promote.processStatus) && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="button"
+                  className="mr-12"
+                  onClick={() => handleDialogSubmit()}
+                >
+                  Gửi lãnh đạo
+                </Button>
               )
             )}
 
@@ -353,7 +354,7 @@ const PromoteInfoDialog = ({
               type="button"
               onClick={handleClose}
             >
-                Đóng
+              Đóng
             </Button>
           </div>
         </DialogActions>
@@ -371,7 +372,7 @@ const PromoteInfoDialog = ({
         />
       )}
 
-      {/* {showDialogApproved && (
+      {showDialogApproved && (
         <ApprovalDialog
           t={t}
           open={showDialogApproved}
@@ -396,7 +397,7 @@ const PromoteInfoDialog = ({
       )}
 
       {showDialogReasonRefusalDialog && (
-        <ReasonRefusalDialog
+        <RefusalDialog
           t={t}
           open={showDialogReasonRefusalDialog}
           handleClose={handleDialogReasonRefusalDialogClose}
@@ -405,7 +406,7 @@ const PromoteInfoDialog = ({
           isPromote={true}
           promote={promote}
         />
-      )} */}
+      )}
     </div>
   );
 };

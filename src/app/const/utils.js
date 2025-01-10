@@ -57,3 +57,14 @@ export function getOldSalary(objectsArray) {
 
   return filteredArray.length > 0 ? filteredArray[0].newSalary : 0;
 }
+export const searchDataByKeyword = (data, keyword) => {
+
+  return data.filter(item => {
+  
+    const stringValues = Object.values(item).map(value => {
+      return value ? value.toString().toLowerCase() : '';
+    });
+   
+    return stringValues.some(value => value.includes(keyword.toLowerCase()));
+  });
+};

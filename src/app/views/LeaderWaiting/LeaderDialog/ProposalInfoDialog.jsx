@@ -21,12 +21,14 @@ import {
 import { useDispatch } from "react-redux";
 // import ApprovalDialog from "./ApprovalDialog";
 // import AddRequestDialog from "./AddRequestDialog";
-// import ReasonRefusalDialog from "./ReasonRefusalDialog";
+import RefusalDialog from "./RefusalDialog";
 import ConfirmLetter from "./ConfirmLetter";
 import "../../../views/_form.scss";
 import moment from "moment";
 import { TabPanel, a11yProps } from "app/component/CustomTab";
 import SendLeaderDialog from "../../ManageEmployee/SendLeader/sendLeaderDialog";
+import ApprovalDialog from "./ApprovalDialog";
+import AddRequestDialog from "./AddRequestDialog";
 
 const DialogActions = withStyles((theme) => ({
   root: {
@@ -190,9 +192,8 @@ const ProposalInfoDialog = ({
                         Hôm nay tôi viết đơn này{" "}
                         <b>
                           {
-                            PROPOSAL.find(
-                              (item) => item.id === proposal?.type
-                            )?.name
+                            PROPOSAL.find((item) => item.id === proposal?.type)
+                              ?.name
                           }
                         </b>
                       </Typography>
@@ -269,8 +270,7 @@ const ProposalInfoDialog = ({
                 </Button>
               </>
             ) : (
-              !ACTION_PROCESS.MANAGE.includes(proposal.proposalStatus) && 
-              (
+              !ACTION_PROCESS.MANAGE.includes(proposal.proposalStatus) && (
                 <Button
                   variant="contained"
                   color="primary"
@@ -278,7 +278,7 @@ const ProposalInfoDialog = ({
                   className="mr-12"
                   onClick={() => handleDialogSubmit()}
                 >
-                 Gửi lãnh đạo
+                  Gửi lãnh đạo
                 </Button>
               )
             )}
@@ -288,7 +288,7 @@ const ProposalInfoDialog = ({
               type="button"
               onClick={handleClose}
             >
-                Đóng
+              Đóng
             </Button>
           </div>
         </DialogActions>
@@ -306,7 +306,7 @@ const ProposalInfoDialog = ({
         />
       )}
 
-      {/* {showDialogApproved && (
+      {showDialogApproved && (
         <ApprovalDialog
           t={t}
           open={showDialogApproved}
@@ -331,7 +331,7 @@ const ProposalInfoDialog = ({
       )}
 
       {showDialogReasonRefusalDialog && (
-        <ReasonRefusalDialog
+        <RefusalDialog
           t={t}
           open={showDialogReasonRefusalDialog}
           handleClose={handleDialogReasonRefusalDialogClose}
@@ -340,7 +340,7 @@ const ProposalInfoDialog = ({
           isProposal={true}
           proposal={proposal}
         />
-      )} */}
+      )}
     </div>
   );
 };

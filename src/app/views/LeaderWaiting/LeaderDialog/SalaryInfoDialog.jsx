@@ -21,12 +21,15 @@ import {
 } from "app/redux/actions/SalaryAction";
 // import ApprovalDialog from "./ApprovalDialog";
 // import AddRequestDialog from "./AddRequestDialog";
-// import ReasonRefusalDialog from "./ReasonRefusalDialog";
+import RefusalDialog from "./RefusalDialog";
 import moment from "moment";
 import ConfirmLetter from "./ConfirmLetter";
 import "../../../../app/views/_form.scss";
 import { TabPanel, a11yProps } from "app/component/CustomTab";
 import SendLeaderDialog from "../../ManageEmployee/SendLeader/sendLeaderDialog";
+import ApprovalDialog from "./ApprovalDialog";
+import AddRequestDialog from "./AddRequestDialog";
+import ReasonRefusalDialog from "./RefusalDialog";
 
 const DialogActions = withStyles((theme) => ({
   root: {
@@ -95,6 +98,9 @@ const SalaryInfoDialog = ({
   const handleDialogReasonRefusalDialogClose = () => {
     setShowDialogReasonRefusalDialog(false);
   };
+  if (!salary) {
+    return <div>Không có dữ liệu để hiển thị.</div>;
+  }
   return (
     <div>
       <Dialog
@@ -340,7 +346,7 @@ const SalaryInfoDialog = ({
         />
       )}
 
-      {/* {showDialogApproved && (
+      {showDialogApproved && (
         <ApprovalDialog
           t={t}
           open={showDialogApproved}
@@ -365,7 +371,7 @@ const SalaryInfoDialog = ({
       )}
 
       {showDialogReasonRefusalDialog && (
-        <ReasonRefusalDialog
+        <RefusalDialog
           t={t}
           open={showDialogReasonRefusalDialog}
           handleClose={handleDialogReasonRefusalDialogClose}
@@ -374,7 +380,7 @@ const SalaryInfoDialog = ({
           isSalary={true}
           salary={salary}
         />
-      )} */}
+      )}
     </div>
   );
 };

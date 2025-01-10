@@ -1,4 +1,5 @@
 import ConstantList from "./appConfig";
+import { authRoles } from "./auth/authRoles";
 export const navigations = [
 
   
@@ -6,6 +7,7 @@ export const navigations = [
     name: "Dashboard.manage",
     isVisible: true,
     icon: "engineering",
+    role: authRoles.user,
     children: [
       // {
       //   name: "Dashboard.eQAActivityLog",
@@ -18,18 +20,21 @@ export const navigations = [
         isVisible: true,
         path: ConstantList.ROOT_PATH + "add_employee",
         icon: "keyboard_arrow_right",
+        role: authRoles.user,
       },
       {
         name: "Quản Lý Nhân Viên",
         isVisible: true,
         path: ConstantList.ROOT_PATH + "manage_employee",
         icon: "keyboard_arrow_right",
+        role: authRoles.user,
       },
       {
         name: "Kết Thúc Nhân Viên",
         isVisible: true,
         path: ConstantList.ROOT_PATH + "end_employee",
         icon: "keyboard_arrow_right",
+        role: authRoles.user,
       },
       // {
       //   name: "Tỉnh",
@@ -51,24 +56,27 @@ export const navigations = [
       // },
     ],
   },
-  // {
-  //   name: "Lãnh đạo",
-  //   icon: "dashboard",
-  //   path: "",
-  //   isVisible: true,
-  //   children: [
-  //     {
-  //       name: "Lãnh đạo chờ duyệt",
-  //       path: ConstantList.ROOT_PATH + "directory/category",
-  //       icon: "keyboard_arrow_right",
-  //       isVisible: true,
-  //     },
-  //     {
-  //       name: "Lãnh đạo đã duyệt",
-  //       path: ConstantList.ROOT_PATH + "directory/timesheet",
-  //       icon: "keyboard_arrow_right",
-  //       isVisible: true,
-  //     },
-  //   ],
-  // },
+  {
+    name: "Lãnh đạo",
+    icon: "dashboard",
+    path: "",
+    isVisible: true,
+    role: authRoles.manage,
+    children: [
+      {
+        name: "Lãnh đạo chờ duyệt",
+        role: authRoles.manage,
+        path: ConstantList.ROOT_PATH + "leader_waiting",
+        icon: "keyboard_arrow_right",
+        isVisible: true,
+      },
+      // {
+      //   name: "Lãnh đạo đã duyệt",
+      //   role: authRoles.manage,
+      //   path: ConstantList.ROOT_PATH + "directory/timesheet",
+      //   icon: "keyboard_arrow_right",
+      //   isVisible: true,
+      // },
+    ],
+  },
 ];

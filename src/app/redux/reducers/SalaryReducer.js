@@ -18,6 +18,7 @@ import {
     salaryByLeader: [],
     success: false,
     totalElements: 0,
+    currentSalary: [],
   };
   
   const salaryReducer = (state = initialState, action) => {
@@ -53,12 +54,17 @@ import {
           success: true,
         };
   
-      case ADD_SALARY_BY_EMPLOYEE_SUCCESS:
-        return {
-          ...state,
-          salaryByEmployee: [...state.salaryByEmployee, action.payload],
-          success: true,
-        };
+        case ADD_SALARY_BY_EMPLOYEE_SUCCESS:
+          const newSalary = Array.isArray(action.payload)
+            ? action.payload[0]
+            : action.payload;
+          return {
+            ...state,
+            currentSalary: newSalary,
+            salaryByEmployee: [...state.salaryByEmployee, newSalary],
+            success: true,
+          };
+        
   
       case UPDATE_SALARY_BY_EMPLOYEE_SUCCESS:
         return {

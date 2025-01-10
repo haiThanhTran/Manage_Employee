@@ -151,7 +151,7 @@ export const promoteColumn = (action) => [
     title: "Ngày thăng chức",
     field: "promotionDay",
     align: "center",
-    render: (rowData) => (rowData.promotionDay),
+    render: (rowData) => formatDate(rowData.promotionDay)
   },
   {
     title: "Vị trí cũ",

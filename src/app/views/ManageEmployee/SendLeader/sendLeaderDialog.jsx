@@ -43,7 +43,7 @@ const SendLeaderDialog = ({
       if (promote) {
         console.log("promote", promote);
         dispatch(updatePromoteByEmployee({ ...promote, leaderId: leader, processStatus: 2 }));
-        // handleClose();
+        handleClose();
       } else if (salary) {
         console.log("salary", salary);
         console.log("employee", employee);

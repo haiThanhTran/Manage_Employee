@@ -22,6 +22,10 @@ import { getExperience } from "../../redux/actions/ExperienceActions";
 import LeaderSubmitDialog from "./LeaderSubmitDialog";
 import { getEmployeeById } from "app/redux/actions/EmployeeActions";
 import ResignationDialog from "./../LeaderWaiting/LeaderDialog/ResignationDialog";
+import ApprovalDialog from "../LeaderWaiting/LeaderDialog/ApprovalDialog";
+import AddRequestDialog from "../LeaderWaiting/LeaderDialog/AddRequestDialog";
+import ManageEmployeeDialog from "../ManageEmployee/ManageEmployeeDialog";
+import ReasonRefusalDialog from "../LeaderWaiting/LeaderDialog/RefusalDialog";
 
 const DialogActions = withStyles((theme) => ({
   root: {
@@ -57,12 +61,17 @@ function ProfileEmployeeDialog(props) {
     t,
     open,
     handleClose,
-    employeeId,
+    employee,
     isManage,
-    handleDialogProcess,
     handleDialogEmployeeClose,
     isEnd,
   } = props;
+  const [showDialogApproval, setShowDialogApproval] = useState(false);
+  const [showDialogAddRequest, setShowDialogAddRequest] = useState(false);
+  const [showDialogReasonRefusalDialog, setShowDialogReasonRefusalDialog] =
+    useState(false);
+  const [showProcess, setShowProcess] = useState(false);
+  const employeeId = employee?.data?.id;
   const [isLeaderSubmit, setIsLeaderSubmit] = useState(false);
   const [employeeData, setEmployeeData] = useState(null);
   const [tab, setTab] = useState(0);
@@ -89,10 +98,12 @@ function ProfileEmployeeDialog(props) {
       dispatch(getCertificate(employeeId));
       dispatch(getExperience(employeeId));
       dispatch(getFamily(employeeId));
+      console.log("employeeId", employeeId);
     }
   }, [employeeId, dispatch]);
 
-  console.log("currentEmployee", currentEmployee);
+  console.log("currentEmployee", employee);
+  console.log("isManage", isManage);
 
   const classes = useStyles();
 
@@ -103,6 +114,43 @@ function ProfileEmployeeDialog(props) {
   const handleLeaderSubmitDialog = () => {
     setIsLeaderSubmit(true);
   };
+
+  const handleDialogProcess = () => {
+    setShowProcess(true);
+  };
+
+  const handleDialogProcessClose = () => {
+    setShowProcess(false);
+  };
+
+  const handleDialogApproved = () => {
+    setShowDialogApproval(true);
+  };
+
+  const handleDialogApprovedClose = () => {
+    setShowDialogApproval(false);
+  };
+
+  const handleDialogAddRequest = () => {
+    setShowDialogAddRequest(true);
+  };
+
+  const handleDialogAddRequestClose = () => {
+    setShowDialogAddRequest(false);
+  };
+
+  const handleDialogLeaderSubmitClose = () => {
+    setIsLeaderSubmit(false);
+  };
+
+  const handleDialogReasonRefusalDialog = () => {
+    setShowDialogReasonRefusalDialog(true);
+  };
+
+  const handleDialogReasonRefusalDialogClose = () => {
+    setShowDialogReasonRefusalDialog(false);
+  };
+
 
   return (
     <div>
@@ -146,19 +194,19 @@ function ProfileEmployeeDialog(props) {
               <TabPanel value={tab} index={2} className={classes.tabPanel}>
                 <CertificateTab listCertificates={listCertificate} t={t} />
               </TabPanel>
-              {isEnd &&
-              <TabPanel value={tab} index={3} className="tabPanel">
-                <ResignationDialog
-                  t={t}
-                  open={open}
-                  handleClose={handleClose}
-                  employee={currentEmployee}
-                  isManage={isManage}
-                  handleDialogEmployeeClose={handleDialogEmployeeClose}
-                  isEnd={isEnd}
-                />
-              </TabPanel>
-              }
+              {isEnd && (
+                <TabPanel value={tab} index={3} className="tabPanel">
+                  <ResignationDialog
+                    t={t}
+                    open={open}
+                    handleClose={handleClose}
+                    employee={currentEmployee}
+                    isManage={isManage}
+                    handleDialogEmployeeClose={handleDialogEmployeeClose}
+                    isEnd={isEnd}
+                  />
+                </TabPanel>
+              )}
             </Grid>
           </Grid>
         </DialogContent>
@@ -183,10 +231,10 @@ function ProfileEmployeeDialog(props) {
             )}
           {isManage &&
             (ACTION_EMPLOYEE.PENDING_END.includes(
-              currentEmployee?.submitProfileStatus
+              employee?.data?.submitProfileStatus
             ) ||
               STATUS_EMPLOYEE.APPROVED.includes(
-                currentEmployee?.submitProfileStatus
+                employee?.data?.submitProfileStatus
               )) && (
               <Button
                 variant="contained"
@@ -197,8 +245,8 @@ function ProfileEmployeeDialog(props) {
                 Lịch sử cập nhật
               </Button>
             )}
-          {/* {isManage &&
-            ACTION_EMPLOYEE.PENDING.includes(employee?.submitProfileStatus) && (
+          {isManage &&
+            ACTION_EMPLOYEE.PENDING.includes(Number(employee?.data?.submitProfileStatus)) && (
               <>
                 <Button
                   variant="contained"
@@ -222,7 +270,7 @@ function ProfileEmployeeDialog(props) {
                   Từ chối
                 </Button>
               </>
-            )} */}
+            )}
           <Button
             variant="contained"
             color="secondary"
@@ -243,9 +291,7 @@ function ProfileEmployeeDialog(props) {
         />
       )}
 
-      
-
-      {/* {showProcess && (
+      {showProcess && (
         <ManageEmployeeDialog
           open={showProcess}
           t={t}
@@ -253,15 +299,15 @@ function ProfileEmployeeDialog(props) {
           employee={employee}
           isManage={isManage}
         />
-      )} */}
+      )}
 
-      {/* {showDialogApproval && (
+      {showDialogApproval && (
         <ApprovalDialog
           t={t}
           open={showDialogApproval}
           handleClose={handleDialogApprovedClose}
           handleCloseProfile={handleClose}
-          employee={employee}
+          currentEmployee={employee}
           isRegister={true}
         />
       )}
@@ -271,7 +317,7 @@ function ProfileEmployeeDialog(props) {
           open={showDialogAddRequest}
           handleClose={handleDialogAddRequestClose}
           handleCloseProfile={handleClose}
-          employee={employee}
+          currentEmployee={employee}
           isRegister={true}
         />
       )}
@@ -281,10 +327,10 @@ function ProfileEmployeeDialog(props) {
           open={showDialogReasonRefusalDialog}
           handleClose={handleDialogReasonRefusalDialogClose}
           handleCloseProfile={handleClose}
-          employee={employee}
+          currentEmployee={employee}
           isRegister={true}
         />
-      )} */}
+      )}
     </div>
   );
 }

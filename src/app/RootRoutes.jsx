@@ -17,6 +17,7 @@ import CategoryRoutes from "./views/Category/CategoryRoutes";
 import EmployeeRoutes from "./views/AddEmployee/EmployeeRoutes";
 import ManageEmployeeRoutes from "./views/ManageEmployee/ManageEmployeeRoutes";
 import EndEmployeeRoute from "./views/EndEmployee/EndEmployeeRoute";
+import LeaderWaitingRoutes from "./views/LeaderWaiting/LeaderWaitingRoute";
 
 
 const redirectRoute = [
@@ -49,7 +50,8 @@ const routes = [
   // ...errorRoute,
   ...EmployeeRoutes,
   ...ManageEmployeeRoutes,
-  ...EndEmployeeRoute
+  ...EndEmployeeRoute,
+  ...LeaderWaitingRoutes,
 ];
 
 export default routes;

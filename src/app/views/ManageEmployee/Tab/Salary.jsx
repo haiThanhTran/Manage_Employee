@@ -23,8 +23,10 @@ function Salary(props) {
   const currentEmployee = employee?.data;
   const currentEmployeeLeaderId = employee?.data?.leaderId;
   const currentEmployeeId = employee?.data?.id;
-  const { salaryByEmployee, success } = useSelector((state) => state.salary);
-  console.log("currentEmployee", currentEmployee);
+  const { salaryByEmployee, success, currentSalary } = useSelector(
+    (state) => state.salary
+  );
+  const [loading, setLoading] = useState(false);
   const [salary, setSalary] = useState({
     startDate: moment().format("YYYY-MM-DD"),
     reason: "",
@@ -32,12 +34,12 @@ function Salary(props) {
     oldSalary: getOldSalary(salaryByEmployee),
     newSalary: 0,
     leaderId: currentEmployeeLeaderId,
-    employeeId:currentEmployeeId
+    employeeId: currentEmployeeId,
   });
-  console.log("currentEmployee", currentEmployee);
   const [shouldOpenConfirmationDialog, setShouldOpenConfirmationDialog] =
     useState(false);
   const [id, setId] = useState(null);
+  const [currentSalaryId, setCurrentSalaryId] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
   const [showNotify, setShowNotify] = useState(false);
   const dispatch = useDispatch();
@@ -53,6 +55,15 @@ function Salary(props) {
   const handleDialogOpen = (employee) => {
     setSalary(employee);
   };
+  useEffect(() => {
+    if (currentSalary && currentSalary.id) {
+      setSalary((prevSalary) => ({
+        ...prevSalary,
+        id: currentSalary.id, // Thêm id từ currentSalary
+      }));
+      setCurrentSalaryId(currentSalary.id); // Cập nhật currentSalaryId nếu cần
+    }
+  }, [currentSalary]);
 
   const handleDialogClose = () => {
     setSalary({});
@@ -91,30 +102,26 @@ function Salary(props) {
     setShowNotify(false);
     setSalary({});
   };
-  const handleSubmit = () => {
-    if (salary?.leaderId) {
-      handleViewSalary(salary);
-      dispatch(updateSalaryByEmployee(salary));
-    } else {
-      if (salary?.id) {
-        dispatch(
-          updateSalaryByEmployee({
-            ...salary,
-            leaderId: salary.leaderId || currentEmployee?.leaderId,
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      if (!salary.id) {
+        await dispatch(
+          addSalaryByEmployee({
+            id: currentEmployee?.id,
+            data: [{ oldSalary: salary?.oldSalary || 0, ...salary }],
           })
         );
-
-    } else {
-      dispatch(
-        addSalaryByEmployee({
-          id: currentEmployee?.id,
-          data: [{ oldSalary: salary?.oldSalary || 0, ...salary }],
-        })
-      );
+        setShowDialog(true);
+      } else {
+        await dispatch(updateSalaryByEmployee(salary));
+        setShowDialog(true);
+      }
+    } catch (error) {
+      console.error("Error while submitting salary request:", error);
+    } finally {
+      setLoading(false);
     }
-      handleDialogClose();
-    }
-    setShowDialog(true);
   };
 
   const data = isManage
@@ -144,17 +151,15 @@ function Salary(props) {
         </IconButton>
       )}
 
-      
-        <IconButton
-          fontSize="small"
-          color="secondary"
-          onClick={() => handleViewSalary(rowData)}
-        >
-          <Icon>
-            <Visibility />
-          </Icon>
-        </IconButton>
-      
+      <IconButton
+        fontSize="small"
+        color="secondary"
+        onClick={() => handleViewSalary(rowData)}
+      >
+        <Icon>
+          <Visibility />
+        </Icon>
+      </IconButton>
 
       {ACTION_PROCESS.NOTIFY.includes(rowData.salaryIncreaseStatus) && (
         <IconButton
@@ -209,15 +214,12 @@ function Salary(props) {
                     Lương cũ
                   </span>
                 }
-                value={
-                  getOldSalary(salaryByEmployee) || salary?.oldSalary || 0
-                }
+                value={getOldSalary(salaryByEmployee) || salary?.oldSalary || 0}
                 inputProps={{
                   readOnly:
                     salary?.oldSalary && salary?.salaryIncreaseStatus === "4",
                 }}
                 onChange={handleChangInput}
-                disabled
                 className="w-100 "
                 name="oldSalary"
                 validators={["required", "matchRegexp:^\\d*$"]}
@@ -315,10 +317,11 @@ function Salary(props) {
                 color="primary"
                 className="mr-10"
                 type="submit"
-                disabled={isEnd ? "disabled" : ""}
+                disabled={loading || isEnd ? "disabled" : ""}
               >
-                Lưu
+                {loading ? "Đang xử lý..." : "Lưu"}
               </Button>
+
               <Button
                 variant="contained"
                 color="secondary"

@@ -17,8 +17,8 @@ import { getDayMonthYear, isMobile } from "../../../const/utils";
 import { useDispatch } from "react-redux";
 import { updateEmployee } from "app/redux/actions/EmployeeActions";
 import SendLeaderDialog from "../../ManageEmployee/SendLeader/sendLeaderDialog";
-// import AddRequestDialog from "./AddRequestDialog";
-// import ReasonRefusalDialog from "./ReasonRefusalDialog";
+import AddRequestDialog from "./AddRequestDialog";
+import RefusalDialog from "./RefusalDialog";  
 import ConfirmLetter from "./ConfirmLetter";
 // import "styles/views/_Resignation.scss";
 import moment from "moment";
@@ -55,6 +55,8 @@ const ResignationLetter = ({
   handleDialogEmployeeClose,
   isEnd,
 }) => {
+  const [showDialogApproved, setShowDialogApproved] = useState(false);
+
   const [showDialogSubmit, setShowDialogSubmit] = useState(false);
   const [showDialogAddRequest, setShowDialogAddRequest] = useState(false);
   const [showDialogReasonRefusalDialog, setShowDialogReasonRefusalDialog] =
@@ -62,12 +64,17 @@ const ResignationLetter = ({
   const [content, setContent] = useState({});
   const [line, setLine] = useState([]);
   const [isRegister, setIsRegister] = useState(true);
+  console.log("employee", employee);
+  console.log("isManage", isManage);
+  console.log("isEnd", isEnd);
 
   useEffect(() => {
     setContent({
-      ...employee.data,
+      ...employee?.data,
       reasonForEnding: ` ${
-        employee?.reasonForEnding ? employee?.reasonForEnding : "Lý do xin nghỉ"
+        employee?.data?.reasonForEnding
+          ? employee?.data?.reasonForEnding
+          : "Lý do xin nghỉ"
       }`,
     });
   }, [employee]);
@@ -88,8 +95,10 @@ const ResignationLetter = ({
   };
 
   const handleDialogApproved = () => {
+    setShowDialogApproved(true);
     console.log("content", content);
-    dispatch(updateEmployee({ ...content, submitProfileStatus: 7 }));
+    const updateData = { ...content, submitProfileStatus: 7 };
+    dispatch(updateEmployee(content.id, updateData));
     handleClose();
   };
 
@@ -641,7 +650,7 @@ const ResignationLetter = ({
                     className="mr-12"
                     onClick={() => handleDialogSubmit()}
                   >
-                    {t("general.sendLeader")}
+                    Gửi lãnh đạo
                   </Button>
                 )}
 
@@ -651,7 +660,7 @@ const ResignationLetter = ({
                   type="button"
                   onClick={handleClose}
                 >
-                  {t("general.cancel")}
+                  Hủy
                 </Button>
               </div>
             </DialogActions>

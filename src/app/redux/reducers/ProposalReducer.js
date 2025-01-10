@@ -21,7 +21,7 @@ import {
     proposalByLeader: [],
     success: false,
     totalElements: 0,
-    proposal: {},
+    currentProposal: {},
   };
   
   const proposalReducer = function (state = initialState, action) {
@@ -66,7 +66,7 @@ import {
         return {
           ...state,
           proposalByEmployee: [...state.proposalByEmployee, action.payload[0]],
-          proposal: action.payload,
+          currentProposal: action.payload[0],
           success: true,
         };
   
