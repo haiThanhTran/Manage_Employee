@@ -1,21 +1,19 @@
 [build]
   command = "NODE_OPTIONS='--max_old_space_size=4096' yarn run build"
   publish = "build"
-  base = "" # Chỉ định thư mục gốc nếu không nằm trong root (để trống nếu root chính là thư mục gốc).
+  base = ""
 
 [context.production.environment]
   NODE_ENV = "production"
-  NPM_CONFIG_UNSAFE_PERM = "true" # Hỗ trợ quyền an toàn cho npm.
-  CI = "true" # Đảm bảo CI chạy trong môi trường chính xác.
+  NPM_CONFIG_UNSAFE_PERM = "true"
+  CI = "true"
 
 [[plugins]]
-  package = "@netlify/plugin-cache" # Plugin cache để tăng tốc build.
+  package = "@netlify/plugin-cache"
 
-# Tùy chọn cache nếu muốn kiểm soát rõ ràng hơn
-[[plugins.inputs]]
-  paths = ["node_modules/**", "build/**"] # Những thư mục cần cache để giảm tải.
+  [plugins.inputs]
+  paths = ["node_modules/**", "build/**"]
 
-# Redirects (nếu cần cấu hình cho SPA React)
 [[redirects]]
   from = "/*"
   to = "/index.html"
