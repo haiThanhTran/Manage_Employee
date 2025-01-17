@@ -39,6 +39,7 @@ const AddRequestDialog = ({
   isPromote,
   isProposal,
   salary,
+  searchEmployee,
 }) => {
   const employee = currentEmployee?.data;
 
@@ -53,23 +54,38 @@ const AddRequestDialog = ({
     setContent({ ...content, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    const updateData = {
+  const handleSubmit = async () => {
+    const updateDataRegister = {
       ...employee,
       addRequest: content.addRequest,
       submitProfileStatus: 4,
     };
-    console.log("updateData", updateData);
-    isRegister && dispatch(updateEmployee(employee.id, updateData));
+    const updateDataEnd = {
+      ...employee,
+      addRequestTermination: content.addRequestTermination,
+      submitProfileStatus: 8,
+    };
+    if (isRegister) {
+      try {
+        await dispatch(updateEmployee(employee.id, updateDataRegister)); // Đợi dispatch hoàn thành
 
-    isEnd &&
-      dispatch(
-        updateEmployee({
-          ...employee,
-          addRequestTermination: content.addRequestTermination,
-          submitProfileStatus: 8,
-        })
-      );
+        // Gọi lại searchEmployee sau khi cập nhật thành công
+        searchEmployee();
+      } catch (error) {
+        console.error("Lỗi khi cập nhật nhân viên:", error);
+      }
+    }
+
+    if (isEnd) {
+      try {
+        await dispatch(updateEmployee(employee.id, updateDataEnd)); // Đợi dispatch hoàn thành
+
+        // Gọi lại searchEmployee sau khi cập nhật thành công
+        searchEmployee();
+      } catch (error) {
+        console.error("Lỗi khi cập nhật nhân viên:", error);
+      }
+    }
 
     isSalary &&
       dispatch(

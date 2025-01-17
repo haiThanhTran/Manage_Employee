@@ -29,11 +29,9 @@ const experienceReducer = (state = initialState, action, listExperience) => {
       return { ...state, success: false, error: null };
 
     case GET_EXPERIENCE_SUCCESS:
-      console.log("action.payload in reducer", action.payload);
       return { ...state, listExperience: action.payload, success: true };
 
     case ADD_EXPERIENCE_SUCCESS:
-      console.log("action.payload in reducer", action.payload);
       return {
         ...state,
         listExperience: [...state.listExperience, ...action.payload], 
@@ -50,7 +48,6 @@ const experienceReducer = (state = initialState, action, listExperience) => {
       };
 
     case DELETE_EXPERIENCE_SUCCESS:
-      console.log("Deleted ID:", action);
 
       return {
         ...state,

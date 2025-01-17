@@ -75,7 +75,7 @@ function ManageEmployee() {
 
   const handleConfirmDelete = () => {
     dispatch(resetCurrentEmployee());
-    console.log("id", id);
+
     dispatch(deleteEmployee(id));
     handleDialogDeleteClose();
   };
@@ -104,7 +104,7 @@ function ManageEmployee() {
 
   const handleNotifyDialog = (employee) => {
     setShowNotify(true);
-    console.log("employee", employee);
+
     employee && dispatch(getEmployeeById(employee.id));
   };
 
@@ -159,8 +159,9 @@ function ManageEmployee() {
   ));
 
   const handleViewEmployee = (employee) => {
-    console.log("employee", employee);
+
     if (employee?.id) {
+      dispatch(getEmployeeById(employee.id));
       setEmployeeId(employee.id); // Chỉ set nếu id tồn tại
       setShowProfile({
         ...showProfile,
@@ -171,7 +172,6 @@ function ManageEmployee() {
     }
   };
 
-
   return (
     <div className="m-20">
       <div className="mb-sm-30">
@@ -181,7 +181,7 @@ function ManageEmployee() {
         <Grid item lg={3} md={4} sm={4} xs={12}>
           <div className="flex flex-space-between flex-middle mb-20">
             <Input
-            variant="outlined"
+              variant="outlined"
               className="w-100 mr-14"
               placeholder={"Tìm kiếm"}
               type={"text"}
@@ -230,7 +230,7 @@ function ManageEmployee() {
 
           {dialogState.showDialogEmployee && (
             <ManageEmployeeDialog
-            open={dialogState.showDialogEmployee}
+              open={dialogState.showDialogEmployee}
               handleClose={() => {
                 setDialogState((prevState) => ({
                   ...prevState,
@@ -242,7 +242,7 @@ function ManageEmployee() {
             />
           )}
         </Grid>
-        
+
         <ConfirmationDialog
           open={shouldOpenConfirmationDialog}
           onConfirmDialogClose={handleDialogDeleteClose}
@@ -261,6 +261,7 @@ function ManageEmployee() {
             }));
             dispatch(resetCurrentEmployee()); // Thêm dispatch ở đây
           }}
+          employee={currentEmployee}
           employeeId={employeeId}
         />
       </Grid>

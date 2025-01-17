@@ -14,17 +14,18 @@ import MuiDialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
 import { Grid, TextField, TextareaAutosize } from "@material-ui/core";
 import { getDayMonthYear, isMobile } from "../../../const/utils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateEmployee } from "app/redux/actions/EmployeeActions";
 import SendLeaderDialog from "../../ManageEmployee/SendLeader/sendLeaderDialog";
 import AddRequestDialog from "./AddRequestDialog";
-import RefusalDialog from "./RefusalDialog";  
+import RefusalDialog from "./RefusalDialog";
 import ConfirmLetter from "./ConfirmLetter";
 // import "styles/views/_Resignation.scss";
 import moment from "moment";
 import { POSITIONS } from "app/const/EmployeeConst";
 import { TabPanel, a11yProps } from "app/component/CustomTab";
 import "../../../views/_form.scss";
+import ApprovalDialog from "./ApprovalDialog";
 
 const DialogActions = withStyles((theme) => ({
   root: {
@@ -54,9 +55,9 @@ const ResignationLetter = ({
   isManage,
   handleDialogEmployeeClose,
   isEnd,
+  searchEmployee,
 }) => {
   const [showDialogApproved, setShowDialogApproved] = useState(false);
-
   const [showDialogSubmit, setShowDialogSubmit] = useState(false);
   const [showDialogAddRequest, setShowDialogAddRequest] = useState(false);
   const [showDialogReasonRefusalDialog, setShowDialogReasonRefusalDialog] =
@@ -64,9 +65,7 @@ const ResignationLetter = ({
   const [content, setContent] = useState({});
   const [line, setLine] = useState([]);
   const [isRegister, setIsRegister] = useState(true);
-  console.log("employee", employee);
-  console.log("isManage", isManage);
-  console.log("isEnd", isEnd);
+
 
   useEffect(() => {
     setContent({
@@ -83,7 +82,7 @@ const ResignationLetter = ({
     setLine(content?.reasonForEnding?.split("\n"));
   }, [content.reasonForEnding]);
 
-  console.log("content", content);
+
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -94,11 +93,11 @@ const ResignationLetter = ({
     setShowDialogSubmit(false);
   };
 
-  const handleDialogApproved = () => {
-    setShowDialogApproved(true);
-    console.log("content", content);
+  const handleDialogApproved = async () => {
+
     const updateData = { ...content, submitProfileStatus: 7 };
-    dispatch(updateEmployee(content.id, updateData));
+    await dispatch(updateEmployee(content.id, updateData));
+    await searchEmployee();
     handleClose();
   };
 
@@ -679,27 +678,30 @@ const ResignationLetter = ({
           isEnd={isEnd}
         />
       )}
-      {/* {showDialogAddRequest && (
+      {showDialogAddRequest && (
         <AddRequestDialog
           t={t}
           open={showDialogAddRequest}
           handleClose={handleDialogAddRequestClose}
           handleCloseProfile={handleClose}
-          employee={employee}
+          currentEmployee={employee}
           isEnd={true}
+          searchEmployee={searchEmployee}
         />
       )}
 
       {showDialogReasonRefusalDialog && (
-        <ReasonRefusalDialog
+        <RefusalDialog
           t={t}
           open={showDialogReasonRefusalDialog}
           handleClose={handleDialogReasonRefusalDialogClose}
           handleCloseProfile={handleClose}
-          employee={employee}
+          currentEmployee={employee}
           isEnd={true}
+          searchEmployee={searchEmployee}
+
         />
-      )} */}
+      )}
     </div>
   );
 };

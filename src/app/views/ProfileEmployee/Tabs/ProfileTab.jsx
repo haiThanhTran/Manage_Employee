@@ -23,10 +23,7 @@ function ProfileTab(props) {
   const { employeeData, employeeFamily } = props;
   const employee = employeeData?.data || {};
   const listFamily = employeeFamily|| [];
-  useEffect(()=>{
-    console.log("employeeData",employeeData)
-    console.log("employeeFamily",employeeFamily)
-  },[])
+
   return (
     <>
       <div className="resume-wrapper">

@@ -6,7 +6,10 @@ import { Grid } from "@material-ui/core";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { updateEmployee } from "app/redux/actions/EmployeeActions";
+import {
+  resetCurrentEmployee,
+  updateEmployee,
+} from "app/redux/actions/EmployeeActions";
 import { updateSalaryByEmployee } from "app/redux/actions/SalaryAction";
 import { updateProposalByEmployee } from "app/redux/actions/ProposalActions";
 import { updatePromoteByEmployee } from "app/redux/actions/PromoteActions";
@@ -33,6 +36,9 @@ const ApprovalDialog = ({
   isPromote,
   isSalary,
   salary,
+  searchEmployee,
+  searchProposal,
+  searchPromote,
 }) => {
   const employee = currentEmployee?.data;
   const [appointmentDate, setAppointmentDate] = useState("");
@@ -41,13 +47,23 @@ const ApprovalDialog = ({
   const handleChangInput = (e) => {
     setAppointmentDate(e.target.value);
   };
-  console.log("employee", employee);
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const updateData = { ...employee, appointmentDate, submitProfileStatus: 3 };
-    isRegister &&
-      dispatch(updateEmployee(employee.id, updateData)) &&
-      console.log("đăng ký", employee);
-    isSalary &&
+    const updateDataPromote = { ...employee, appointmentDate, submitProfileStatus: 3 };
+    if (isRegister) {
+      try {
+        const registerApproval = await dispatch(
+          updateEmployee(employee.id, updateData)
+        ); // Đợi dispatch hoàn thành
+        if (registerApproval) {
+          await searchEmployee();
+        }
+      } catch (error) {
+        console.error("Lỗi khi cập nhật nhân viên:", error);
+      }
+    }
+
+    if (isSalary) {
       dispatch(
         updateSalaryByEmployee({
           ...salary,
@@ -55,23 +71,43 @@ const ApprovalDialog = ({
           salaryIncreaseStatus: 3,
         })
       );
-    isProposal &&
-      dispatch(
-        updateProposalByEmployee({
-          ...proposal,
-          acceptanceDate,
-          proposalStatus: 3,
-        })
-      );
-    isPromote &&
-      dispatch(
-        updatePromoteByEmployee({
-          ...promote,
-          acceptanceDate,
-          processStatus: 3,
-        })
-      );
+    }
+
+    if (isProposal) {
+      try {
+        await dispatch(
+          updateProposalByEmployee({
+            ...proposal,
+            acceptanceDate,
+            proposalStatus: 3,
+          })
+        ); // Đợi dispatch hoàn thành
+
+        // Gọi lại searchEmployee sau khi cập nhật thành công
+        searchProposal();
+      } catch (error) {
+        console.error("Lỗi khi cập nhật nhân viên:", error);
+      }
+    }
+
+    if (isPromote) {
+      try {
+        await dispatch(
+          updatePromoteByEmployee({
+            ...promote,
+            acceptanceDate,
+            processStatus: 3,
+          })
+        ); // Đợi dispatch hoàn thành
+
+        // Gọi lại searchEmployee sau khi cập nhật thành công
+        searchProposal();
+      } catch (error) {
+        console.error("Lỗi khi cập nhật nhân viên:", error);
+      }
+    }
     handleClose();
+
     handleCloseProfile();
   };
   return (

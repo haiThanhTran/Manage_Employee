@@ -14,10 +14,8 @@ import { formatDate } from "../../../const/utils";
 
 function CertificateTab(props) {
   const { listCertificates } = props;
-  const listCertificate=listCertificates?.data
-  useEffect(() => {
-    console.log("listCertificates", listCertificates);
-  },[])
+
+
   return (
     <div className="certificate">
       <div className="ml-30 font-size-24 font-weight-500">

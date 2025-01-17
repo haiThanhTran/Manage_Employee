@@ -204,7 +204,21 @@ function FamilyTab(props) {
               ))}
             </TextValidator>
           </Grid>
-
+          <Grid item xs={12} sm={6}>
+            <TextValidator
+              variant="outlined"
+              label="*Số CCCD"
+              value={family?.citizenIdentificationNumber || ""}
+              onChange={handleChangInput}
+              name="citizenIdentificationNumber"
+              className="w-100"
+              validators={["required", "isIdentityCardValid"]}
+              errorMessages={[
+                "Trường này không được để trống",
+                "Căn cước công dân phải có 9 hoặc 12 chữ số",
+              ]}
+            />
+          </Grid>
           <Grid item xs={12} sm={6}>
             <TextValidator
               variant="outlined"

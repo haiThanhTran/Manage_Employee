@@ -57,8 +57,6 @@ function* createFamilySaga(action) {
 function* updateFamilySaga(action) {
   try {
     const response = yield call(updateFamily, action.payload.id, action.payload);
-    console.log("response family", response);
-    console.log("action family", action);
 
     if (response?.status === 200) {
       yield put(updateFamilySuccess(response.data.data));

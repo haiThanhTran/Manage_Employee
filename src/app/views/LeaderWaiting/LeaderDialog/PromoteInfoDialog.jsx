@@ -96,8 +96,6 @@ const PromoteInfoDialog = ({
     setShowDialogReasonRefusalDialog(false);
   };
   const dispatch = useDispatch();
-  console.log("promote", promote);
-  console.log("employee", employee);
   return (
     <div>
       <Dialog

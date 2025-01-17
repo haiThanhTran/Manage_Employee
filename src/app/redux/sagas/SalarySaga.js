@@ -45,7 +45,6 @@ function* getSalaryByEmployeeSaga(action) {
 function* getSalaryListLeaderSaga() {
   try {
     const response = yield call(getSalaryByLeader);
-    console.log(response)
     const { data, code, message } = response?.data;
     if (code === 200) {
       yield put(getSalaryByLeaderSuccess(data));
@@ -62,11 +61,9 @@ function* addSalaryByEmployeeSaga(action) {
   try {
     const { payload } = action;
     const response = yield call(addSalaryByEmployee, payload);
-    console.log("API Response:", response);
     const { data, code, message } = response?.data;
 
     if (code === 200) {
-      console.log("API Response Data:", data);
       yield put(addSalaryByEmployeeSuccess(data[0]));
       toast.success("Thêm yêu cầu thành công");
     } else {

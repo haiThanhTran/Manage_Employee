@@ -65,6 +65,9 @@ function ProfileEmployeeDialog(props) {
     isManage,
     handleDialogEmployeeClose,
     isEnd,
+    searchEmployee,
+    searchPromote,
+    searchProposal
   } = props;
   const [showDialogApproval, setShowDialogApproval] = useState(false);
   const [showDialogAddRequest, setShowDialogAddRequest] = useState(false);
@@ -98,12 +101,9 @@ function ProfileEmployeeDialog(props) {
       dispatch(getCertificate(employeeId));
       dispatch(getExperience(employeeId));
       dispatch(getFamily(employeeId));
-      console.log("employeeId", employeeId);
     }
   }, [employeeId, dispatch]);
 
-  console.log("currentEmployee", employee);
-  console.log("isManage", isManage);
 
   const classes = useStyles();
 
@@ -309,6 +309,9 @@ function ProfileEmployeeDialog(props) {
           handleCloseProfile={handleClose}
           currentEmployee={employee}
           isRegister={true}
+          searchEmployee={searchEmployee}
+          searchPromote={searchPromote}
+          searchProposal={searchProposal}
         />
       )}
       {showDialogAddRequest && (
@@ -318,6 +321,8 @@ function ProfileEmployeeDialog(props) {
           handleClose={handleDialogAddRequestClose}
           handleCloseProfile={handleClose}
           currentEmployee={employee}
+          searchEmployee={searchEmployee}
+
           isRegister={true}
         />
       )}
@@ -328,6 +333,8 @@ function ProfileEmployeeDialog(props) {
           handleClose={handleDialogReasonRefusalDialogClose}
           handleCloseProfile={handleClose}
           currentEmployee={employee}
+          searchEmployee={searchEmployee}
+
           isRegister={true}
         />
       )}

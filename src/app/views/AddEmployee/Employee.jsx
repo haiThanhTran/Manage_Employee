@@ -71,12 +71,8 @@ const Employee = ({ t }) => {
   const handleNotifyDialog = (employee) => {
     setNotify(employee);
     setShowNotify(true);
-    console.log("notify", notify);
-    console.log("employee_notify", employee);
   };
-  useEffect(() => {
-    console.log("notify updated:", notify);
-  }, [notify]);
+
 
   const handleCloseNotify = () => {
     dispatch(resetCurrentEmployee());
@@ -101,7 +97,6 @@ const Employee = ({ t }) => {
   };
 
   const handleConfirmDelete = () => {
-    console.log("id", id);
     dispatch(deleteEmployee(id));
     handleDialogDeleteClose();
   };
@@ -169,6 +164,7 @@ const Employee = ({ t }) => {
 
   const handleViewEmployee = (employee) => {
     if (employee?.id) {
+      dispatch(getEmployeeById(employee.id));
       setEmployeeId(employee.id); // Chỉ set nếu id tồn tại
       setShowProfile({
         ...showProfile,
@@ -179,8 +175,6 @@ const Employee = ({ t }) => {
     }
   };
 
-  console.log("listEmployees:", listEmployees);
-  console.log("totalElements:", totalElements);
 
   return (
     <div className="m-20">
@@ -277,6 +271,7 @@ const Employee = ({ t }) => {
             dispatch(resetCurrentEmployee()); // Thêm dispatch ở đây
           }}
           employeeId={employeeId}
+          employee={currentEmployee}
           t={t}
         />
       </Grid>

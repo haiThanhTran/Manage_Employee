@@ -41,16 +41,15 @@ const SendLeaderDialog = ({
     }, []);
     const handleSubmit = () => {
       if (promote) {
-        console.log("promote", promote);
+
         dispatch(updatePromoteByEmployee({ ...promote, leaderId: leader, processStatus: 2 }));
         handleClose();
       } else if (salary) {
-        console.log("salary", salary);
-        console.log("employee", employee);
+
         dispatch(updateSalaryByEmployee({ ...salary,employeeId:employee?.id,leaderId: leader, salaryIncreaseStatus: 2 }));
         handleClose();
       } else if (proposal) {
-        console.log("proposal", proposal);
+
         dispatch(updateProposalByEmployee({ ...proposal, leaderId: leader, proposalStatus: 2 }));
         handleClose();
       } else {
@@ -59,7 +58,6 @@ const SendLeaderDialog = ({
               leaderId: leader,
               submitProfileStatus: 6,
             }
-        console.log("update", data)
         dispatch(updateEmployee(data?.id, data));
         handleDialogEmployeeClose();
       }

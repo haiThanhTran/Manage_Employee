@@ -62,21 +62,18 @@ const EmployeeDialog = ({ open, handleClose, employeeId }) => {
 
   const dispatch = useDispatch();
   const refAddEmployee = useRef(null);
-  console.log("employeeId", employeeId);
   useEffect(() => {
     dispatch(getEmployeeById(employeeId)) &&
       dispatch(getCertificate(employeeId));
-    console.log("listCertificate", listCertificate);
-    console.log("employeeId", employeeId);
   }, [employeeId]);
 
   const handleChangeTab = (e, newValue) => {
     if (newValue !== TAB_EMPLOYEE) {
       if (currentEmployee?.data?.id) {
-        console.log("currentEmployee", currentEmployee);
+
         setTab(newValue);
       } else {
-        console.log("currentEmployee", currentEmployee);
+
 
         toast.error("Vui lòng lưu thông tin nhân viên trước !");
       }

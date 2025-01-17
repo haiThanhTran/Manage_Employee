@@ -69,10 +69,10 @@ const WaitingSalaryTab = ({ t }) => {
   };
 
   const handleViewEmployee = (salary) => {
-    console.log("salary", salary);
+
     setShowProfile(true);
     dispatch(getEmployeeById(salary?.employeeId));
-    console.log("curent employee", currentEmployee);
+
   };
 
   const handleViewEmployeeClose = () => {

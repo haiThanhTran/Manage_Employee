@@ -23,7 +23,6 @@ function CertificateTab(props) {
 
   useEffect(() => {
     setCertificate(listCertificate);
-    console.log("listCertificate", listCertificate);
   }, [listCertificate]); // Lắng nghe sự thay đổi của listCertificate
 
   const handleChangInput = (e) => {

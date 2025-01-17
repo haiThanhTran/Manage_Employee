@@ -29,7 +29,6 @@ import {
 function* getPromoteByEmployeeSaga(props) {
   const { id } = props;
   try {
-    console.log("action.payload", id);
     const response = yield call(getPromoteByEmployee, id);
     const { data, code, message } = response?.data;
 
@@ -105,14 +104,11 @@ function* updatePromoteByEmployeeSaga(action) {
 
 function* deletePromoteByEmployeeSaga(props) {
   const { id } = props;
-  console.log("props",props)
   try {
     const response = yield call(deletePromoteByEmployee, id);
-    console.log("response",response)
     const { code, message } = response?.data;
 
     if (code === 200) {
-      console.log("action.payload o delete", id);
       yield put(deletePromoteByEmployeeSuccess(id));
       toast.success("Xóa promote thành công.");
     } else {

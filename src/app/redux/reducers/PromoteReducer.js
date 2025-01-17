@@ -51,7 +51,7 @@ const promoteReducer = function (state = initialState, action) {
         ...state,
         promoteByEmployee: action.payload,
         totalElements: action.payload.totalElements,
-        success: true,
+
       };
 
     case GET_PROMOTE_BY_LEADER_SUCCESS:
@@ -59,16 +59,15 @@ const promoteReducer = function (state = initialState, action) {
         ...state,
         promoteByLeader: action.payload,
         totalElements: action.payload.totalElements,
-        success: true,
+
       };
 
     case ADD_PROMOTE_BY_EMPLOYEE_SUCCESS:
-      console.log("action.payload", action.payload[0]);
       return {
         ...state,
         promoteByEmployee: [...state.promoteByEmployee, action.payload[0]],
         currentPromote: action.payload[0],
-        success: true,
+
       };
 
     case UPDATE_PROMOTE_BY_EMPLOYEE_SUCCESS:
@@ -81,7 +80,6 @@ const promoteReducer = function (state = initialState, action) {
       };
 
     case DELETE_PROMOTE_BY_EMPLOYEE_SUCCESS:
-      console.log("action.payload", action);
       return {
         ...state,
         promoteByEmployee: state.promoteByEmployee.filter(

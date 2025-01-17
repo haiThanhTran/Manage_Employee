@@ -17,10 +17,10 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-const EndEmployeeDialog = ({ t, open, handleClose, employee }) => {
+const EndEmployeeDialog = ({  open, handleClose, employee }) => {
   const [numberSaved, setNumberSaved] = useState("");
-  const codeEndDate = `NL${moment().format("MM")}${moment().format("YY")}/`; 
-
+  const codeEndDate = `NL${moment().format("MM")}${moment().format("YY")}/`;
+  const employeeData = employee?.data;
   const dispatch = useDispatch();
 
   const handleChangInput = (e) => {
@@ -32,14 +32,13 @@ const EndEmployeeDialog = ({ t, open, handleClose, employee }) => {
   };
 
   const handleSubmit = () => {
-    dispatch(
-      updateEmployee({
-        ...employee,
-        decisionDay: new Date().toISOString().split("T")[0],
-        numberSaved,
-        submitProfileStatus: "0",
-      })
-    );
+    const dataEndEmployee = {
+      ...employeeData,
+      decisionDay: new Date().toISOString().split("T")[0],
+      numberSaved,
+      submitProfileStatus: "0",
+    };
+    dispatch(updateEmployee(dataEndEmployee?.id, dataEndEmployee));
     handleClose();
   };
 
@@ -52,7 +51,7 @@ const EndEmployeeDialog = ({ t, open, handleClose, employee }) => {
       open={open}
     >
       <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-        {t("employee.submit")}
+        Kết thúc nhân viên
       </DialogTitle>
       <ValidatorForm onSubmit={handleSubmit}>
         <DialogContent dividers>
@@ -62,7 +61,7 @@ const EndEmployeeDialog = ({ t, open, handleClose, employee }) => {
                 label={
                   <span>
                     <span className="text-error">*</span>
-                    {t("employee.decisionDay")}
+                    Ngày quyết định
                   </span>
                 }
                 disabled
@@ -73,7 +72,7 @@ const EndEmployeeDialog = ({ t, open, handleClose, employee }) => {
                 className="w-100 pr-12"
                 InputLabelProps={{ shrink: true }}
                 validators={["required"]}
-                errorMessages={[t("general.required")]}
+                errorMessages={["Trường này không được để trống"]}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -81,7 +80,7 @@ const EndEmployeeDialog = ({ t, open, handleClose, employee }) => {
                 label={
                   <span>
                     <span className="text-error">*</span>
-                    {t("employee.numberSaved")}
+                    Mã nộp lưu
                   </span>
                 }
                 value={numberSaved || codeEndDate}
@@ -91,7 +90,7 @@ const EndEmployeeDialog = ({ t, open, handleClose, employee }) => {
                 name="numberSaved"
                 validators={["required", `matchRegexp:^${codeEndDate}\\d{3}$`]}
                 errorMessages={[
-                  t("general.required"),
+                  "Trường này không được để trống",
                   "Mã nộp lưu phải có dạng " + codeEndDate + "3 số bất kỳ",
                 ]}
               />
@@ -100,7 +99,7 @@ const EndEmployeeDialog = ({ t, open, handleClose, employee }) => {
         </DialogContent>
         <DialogActions>
           <Button variant="contained" color="primary" type="submit">
-            {t("general.save")}
+            Lưu
           </Button>
           <Button
             variant="contained"
@@ -108,7 +107,7 @@ const EndEmployeeDialog = ({ t, open, handleClose, employee }) => {
             type="button"
             onClick={handleClose}
           >
-            {t("general.cancel")}
+            Hủy
           </Button>
         </DialogActions>
       </ValidatorForm>

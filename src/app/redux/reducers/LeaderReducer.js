@@ -41,7 +41,6 @@ import {
         };
   
       case GET_LEADER_LIST_SUCCESS:
-        console.log("action.payload", action.payload);
         return {
           ...state,
           listLeader: action.payload,

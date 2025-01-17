@@ -70,13 +70,13 @@ export const navigations = [
         icon: "keyboard_arrow_right",
         isVisible: true,
       },
-      // {
-      //   name: "Lãnh đạo đã duyệt",
-      //   role: authRoles.manage,
-      //   path: ConstantList.ROOT_PATH + "directory/timesheet",
-      //   icon: "keyboard_arrow_right",
-      //   isVisible: true,
-      // },
+      {
+        name: "Lãnh đạo đã duyệt",
+        role: authRoles.manage,
+        path: ConstantList.ROOT_PATH + "leader_approved",
+        icon: "keyboard_arrow_right",
+        isVisible: true,
+      },
     ],
   },
 ];

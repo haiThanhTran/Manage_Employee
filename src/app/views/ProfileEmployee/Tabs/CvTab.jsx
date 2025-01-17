@@ -51,10 +51,7 @@ const CvTab = (props) => {
   const [isExperience, setIsExperience] = useState(false);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   setEmployee(employeeCv);
-  //   console.log("employeeCv", employee);
-  // }, [employeeCv]);
+
 
   const handleUpdateSkill = () => {
     setIsUpdateSkill(true);
@@ -88,7 +85,6 @@ const CvTab = (props) => {
   };
   const handleSubmitActivity = () => {
     const data = { ...employee, activity };
-    console.log("data", data);
     dispatch(updateEmployee(data?.id, data));
     handleUpdateActiveClose();
   };
@@ -122,13 +118,10 @@ const CvTab = (props) => {
     setId(null);
   };
 
-  console.log("listExperience", listExperience);
-  console.log("employeeCv", employeeCv);
 
   if (!employee || !listExperience) {
     return <div>Loading...</div>; // Hoặc loader
   }
-  console.log("Updated experiences:", experiences);
   return (
     <div className="wrapper">
       <Grid container spacing={2} xs={12} className="ml-0">

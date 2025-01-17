@@ -47,9 +47,13 @@ const EmployeeTab = forwardRef((props, ref) => {
   const { employeeData, onFormSubmit, refAddEmployee } = props;
   const formRef = useRef(null);
   const { currentEmployee } = useSelector((state) => state.employees);
-  const [employee, setEmployee] = useState(employeeData || {});
+  const [employee, setEmployee] = useState(
+    employeeData ? { ...employeeData, code: employeeData.code } : {}
+  );
   useEffect(() => {
-    setEmployee(employeeData);
+    setEmployee(
+      employeeData ? { ...employeeData, code: employeeData.code } : {}
+    );
   }, [employeeData]);
   useEffect(() => {
     addEmployeeIdValidationRule();
@@ -105,8 +109,9 @@ const EmployeeTab = forwardRef((props, ref) => {
   };
 
   const handleChangeInput = (event) => {
-    setEmployee({ ...employee, [event.target.name]: event.target.value });
-  };
+    const {name, value} = event.target
+   setEmployee(prevEmployee => ({...prevEmployee,[name]: value }))
+ };
 
   useImperativeHandle(refAddEmployee, () => ({
     submit: () => {

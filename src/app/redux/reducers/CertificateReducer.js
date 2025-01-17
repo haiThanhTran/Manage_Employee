@@ -38,7 +38,6 @@ const certificateReducer = function (state = initialState, action) {
       };
 
     case GET_CERTIFICATE_SUCCESS:
-      console.log("action.payload in certificate", action.payload);
 
       return {
         ...state,
@@ -68,7 +67,6 @@ const certificateReducer = function (state = initialState, action) {
         };
 
     case DELETE_CERTIFICATE_SUCCESS:
-      console.log("Deleted ID:", action.payload);
       return {
         ...state,
         listCertificate: state.listCertificate.filter(

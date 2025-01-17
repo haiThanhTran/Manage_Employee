@@ -11,7 +11,6 @@ export const getSalaryByLeader = () => {
 };
 
 export const addSalaryByEmployee = (payload) => {
-  console.log("payload",)
   const { id, data } = payload;
   return axios.post(API_PATH_SALARY + "?employeeId=" + id, data);
 };

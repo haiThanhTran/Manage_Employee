@@ -51,7 +51,6 @@ import {
           ...state,
           proposalByEmployee: action.payload,
           totalElements: action.payload.totalElements,
-          success: true,
         };
   
       case GET_PROPOSAL_BY_LEADER_SUCCESS:
@@ -59,7 +58,6 @@ import {
           ...state,
           proposalByLeader: action.payload,
           totalElements: action.payload.totalElements,
-          success: true,
         };
   
       case ADD_PROPOSAL_BY_EMPLOYEE_SUCCESS:

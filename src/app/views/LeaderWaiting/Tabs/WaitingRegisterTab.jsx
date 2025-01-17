@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getEmployeeById,
   getEmployees,
-  resetCurrentEmployee
+  resetCurrentEmployee,
 } from "app/redux/actions/EmployeeActions";
 import { ACTION_EMPLOYEE, STATUS_EMPLOYEE } from "app/const/EmployeeConst";
 import { employeeColumn } from "../../../component/Column";
@@ -28,7 +28,7 @@ const WaitingRegisterTab = ({ t }) => {
   const [pageIndex, setPageIndex] = useState(0);
   const [showDialog, setShowDialog] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const { listEmployees, totalElements, success, currentEmployee,waiting  } =
+  const { listEmployees, totalElements, success, currentEmployee, waiting } =
     useSelector((state) => state.employees);
   const dispatch = useDispatch();
   const searchEmployee = () => {
@@ -42,8 +42,7 @@ const WaitingRegisterTab = ({ t }) => {
   };
   useEffect(() => {
     searchEmployee();
-  }, [pageIndex, pageSize,success]);
-
+  }, [pageIndex, pageSize, success]);
 
   const handleChangeKeyword = (e) => {
     setKeyword(e.target.value);
@@ -68,23 +67,27 @@ const WaitingRegisterTab = ({ t }) => {
   };
 
   const handleDialogOpen = async (employee) => {
-    console.log("employee dialog open", employee);
+
     setShowDialog(true);
     employee && dispatch(getEmployeeById(employee?.id));
   };
 
   const handleDialogClose = () => {
+    dispatch(resetCurrentEmployee());
     setShowDialog(false);
   };
 
   const handleViewEmployee = (employee) => {
-    console.log("employee view", employee);
-    setShowProfile(true);
-    dispatch(getEmployeeById(employee?.id));
+
+    const res= dispatch(getEmployeeById(employee?.id));
+    if(res){
+
+      setShowProfile(true);
+    }
   };
 
   const handleViewEmployeeClose = () => {
-    dispatch(resetCurrentEmployee())
+    dispatch(resetCurrentEmployee());
     setShowProfile(false);
   };
 
@@ -159,6 +162,7 @@ const WaitingRegisterTab = ({ t }) => {
               handleClose={handleDialogClose}
               employee={currentEmployee}
               isManage={true}
+              searchEmployee={searchEmployee}
             />
           )}
 
@@ -170,6 +174,7 @@ const WaitingRegisterTab = ({ t }) => {
               handleDialogClose={handleDialogClose}
               employee={currentEmployee}
               isManage={true}
+              searchEmployee={searchEmployee}
             />
           )}
         </Grid>

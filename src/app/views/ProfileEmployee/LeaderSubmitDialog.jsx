@@ -61,7 +61,6 @@ const LeaderSubmitDialog = ({
       ...leaderSubmit,
       submitProfileStatus: 2,
     };
-    console.log("data", data);
     dispatch(updateEmployee(data?.data?.id, data?.data));
     handleClose();
     handleDialogEmployeeClose();

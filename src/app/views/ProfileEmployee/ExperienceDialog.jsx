@@ -35,7 +35,6 @@ const ExperienceDialog = ({
 
   const handleSubmit = () => {
     if (experience?.id) {
-      console.log("experience",experience)
       const data = {
         id: experience?.id,
         data: { ...experience, employeeId: employee?.id },

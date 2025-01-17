@@ -69,7 +69,6 @@ const EndEmployee = ({ t }) => {
   };
 
   const handleViewEmployee = (employee) => {
-    console.log("employee", employee);
     dispatch(getEmployeeById(employee?.id));
     setShowProfile(true);
   };
@@ -80,7 +79,7 @@ const EndEmployee = ({ t }) => {
 
   const handleDialogOpen = (employee) => {
     setShowDialog(true);
-    dispatch(getEmployeeById(employee));
+    dispatch(getEmployeeById(employee?.id));
   };
 
   const handleDialogClose = () => {
@@ -153,7 +152,7 @@ const EndEmployee = ({ t }) => {
             paging={true}
           />
 
-          <ManageEmployeeDialog 
+          <ManageEmployeeDialog
             employee={currentEmployee}
             open={showProfile}
             isManage={false}

@@ -25,7 +25,6 @@ import { toast } from "react-toastify";
 function* getExperienceSaga(action) {
   try {
     const response = yield call(getExperience, action.id);
-    console.log("response in saga", response?.data);
     const { data, code, message } = response?.data;
     yield put(getExperienceSuccess(data));
   } catch (error) {
@@ -54,7 +53,6 @@ function* updateExperienceSaga(action) {
       action.payload
     );
     const { data, code, message } = response?.data;
-    console.log("data", data);
     yield put(updateExperienceSuccess(data));
     toast.success("Cập nhật kinh nghiệm thành công.");
   } catch (error) {
@@ -67,7 +65,6 @@ function* deleteExperienceSaga(action) {
   try {
     const res = yield call(deleteExperience, action.id);
     const { data, code, message } = res?.data;
-    console.log("action", action);
     yield put(deleteExperienceSuccess(action.id));
     toast.success("Xóa kinh nghiệm thành công.");
   } catch (error) {

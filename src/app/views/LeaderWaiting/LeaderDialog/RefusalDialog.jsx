@@ -34,6 +34,7 @@ const ReasonRefusalDialog = ({
   isProposal,
   isPromote,
   salary,
+  searchEmployee,
 }) => {
   const employee = currentEmployee?.data;
   const [content, setContent] = useState({
@@ -53,24 +54,40 @@ const ReasonRefusalDialog = ({
     setContent({ ...content, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    const updateData = {
+  const handleSubmit = async () => {
+    const updateDataRegister = {
       ...employee,
       rejectionDate: content.rejectionDate,
       ReasonRefusalDialog: content.ReasonRefusalDialog,
       submitProfileStatus: 5,
     };
-    isRegister && dispatch(updateEmployee(employee.id, updateData));
+    const updateDataEnd = {
+      ...employee,
+      refuseEndProfileDay: content.refuseEndProfileDay,
+      reasonForRefuseEndProfile: content.reasonForRefuseEndProfile,
+      submitProfileStatus: 9,
+    };
+    if (isRegister) {
+      try {
+        await dispatch(updateEmployee(employee.id, updateDataRegister)); // Đợi dispatch hoàn thành
 
-    isEnd &&
-      dispatch(
-        updateEmployee({
-          ...employee,
-          refuseEndProfileDay: content.refuseEndProfileDay,
-          reasonForRefuseEndProfile: content.reasonForRefuseEndProfile,
-          submitProfileStatus: 9,
-        })
-      );
+        // Gọi lại searchEmployee sau khi cập nhật thành công
+        searchEmployee();
+      } catch (error) {
+        console.error("Lỗi khi cập nhật nhân viên:", error);
+      }
+    }
+
+    if (isEnd) {
+      try {
+        await dispatch(updateEmployee(employee.id, updateDataEnd)); // Đợi dispatch hoàn thành
+
+        // Gọi lại searchEmployee sau khi cập nhật thành công
+        searchEmployee();
+      } catch (error) {
+        console.error("Lỗi khi cập nhật nhân viên:", error);
+      }
+    }
     isSalary &&
       dispatch(
         updateSalaryByEmployee({

@@ -28,16 +28,13 @@ function* getEmployeesSaga(action) {
   try {
 
     const { payload } = action;
-    console.log("payload", payload);
 
     const response = yield call(EmployeeService.getEmployee, payload);
 
     const { data, totalElements, code, message } = response?.data;
     if (response.status === 200){
-      console.log("payloadsuceess", payload);
       yield put(getEmployeesSuccess({ data, totalElements }));
     } else {
-      console.log("payload", payload);
 
       yield put(getEmployeesFail(message));
       toast.error(message);
@@ -62,7 +59,6 @@ function* createEmployeeSaga({ payload }) {
 function* updateEmployeeSaga({ payload }) {
   try {
     const { id, employeeNew } = payload;
-    console.log("payload", payload);
     const response = yield call(
       EmployeeService.updateEmployee,
       id,

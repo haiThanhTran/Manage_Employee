@@ -76,8 +76,6 @@ function* deleteCertificateSaga(action) {
     const { id } = action;
     const response = yield call(deleteCertificate,id);
     const { message, code } = response?.data;
-    console.log("response", response);
-    console.log("id", id);
     if (response.status === 200) {
       yield put(deletelistCertificateSuccess(id));
       toast.success("Xóa văn bằng thành công");

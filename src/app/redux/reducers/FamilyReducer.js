@@ -19,6 +19,7 @@ const initialState = {
   currentFamily: null,
   loading: false,
   error: null,
+  success: false,
 };
 
 const familyReducer = (state = initialState, action) => {
@@ -37,6 +38,8 @@ const familyReducer = (state = initialState, action) => {
         ...state,
         familyList: [...state.familyList, action.payload],
         loading: false,
+        success: true,
+
       };
 
     case UPDATE_FAMILY_SUCCESS:
@@ -46,6 +49,7 @@ const familyReducer = (state = initialState, action) => {
           item.id === action.payload.id ? action.payload : item
         ),
         loading: false,
+        success: true,
       };
 
     case DELETE_FAMILY_SUCCESS:

@@ -32,7 +32,6 @@ const Promote = ({ t, currentEmployee, listLeader, isManage, isEnd }) => {
   const [showPromote, setShowPromote] = useState(false);
   const [showNotify, setShowNotify] = useState(false);
   const dispatch = useDispatch();
-  console.log("employee", employee);
   useEffect(() => {
     employee?.id && dispatch(getPromoteByEmployee(employee?.id));
   }, [employee?.id]);

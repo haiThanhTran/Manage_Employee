@@ -34,7 +34,7 @@ const WaitingProposalTab = ({ t }) => {
 
   useEffect(() => {
     dispatch(getproposalByLeader());
-  }, [pageIndex, pageSize]);
+  }, [pageIndex, pageSize,success]);
 
   useEffect(() => {
     proposalByLeader.length > 0 && setProposalList(proposalByLeader);
@@ -156,6 +156,7 @@ const WaitingProposalTab = ({ t }) => {
               handleClose={handleViewEmployeeClose}
               t={t}
               employee={currentEmployee}
+              searchProposal={getproposalByLeader()}
             />
           )}
 

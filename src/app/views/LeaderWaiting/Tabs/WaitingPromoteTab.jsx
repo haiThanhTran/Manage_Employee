@@ -33,7 +33,7 @@ const WaitingPromoteTab = ({ t }) => {
   const [newEmployee, setNewEmployee] = useState("");
   const [promote, setPromote] = useState({});
   const [promoteList, setPromoteList] = useState([]);
-  const { promoteByLeader } = useSelector((state) => state.promote);
+  const { promoteByLeader, success } = useSelector((state) => state.promote);
 
   const { currentEmployee } = useSelector((state) => state.employees);
 
@@ -41,7 +41,7 @@ const WaitingPromoteTab = ({ t }) => {
 
   useEffect(() => {
     dispatch(getPromoteByLeader());
-  }, [pageIndex, pageSize]);
+  }, [pageIndex, pageSize, success]);
   useEffect(() => {
     promoteByLeader.length > 0 && setPromoteList(promoteByLeader);
   }, [promoteByLeader]);
@@ -82,6 +82,7 @@ const WaitingPromoteTab = ({ t }) => {
   };
 
   const handleViewEmployee = (promote) => {
+
     setShowProfile(true);
     dispatch(getEmployeeById(promote?.employeeId));
   };

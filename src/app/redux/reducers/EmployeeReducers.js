@@ -78,7 +78,6 @@ const employeeReducer = (state = initialState, action) => {
 
     // Cập nhật nhân viên thành công
     case UPDATE_EMPLOYEE_SUCCESS:
-      console.log("action.payload", action.payload);
       return {
         ...state,
         listEmployees: state.listEmployees.map((employee) =>
@@ -105,7 +104,6 @@ const employeeReducer = (state = initialState, action) => {
 
     // Lấy thông tin nhân viên theo ID thành công
     case GET_EMPLOYEE_BY_ID_SUCCESS:
-      console.log("action.payload", action.payload);
       return {
         ...state,
         currentEmployee: action.payload, // Cập nhật nhân viên hiện tại

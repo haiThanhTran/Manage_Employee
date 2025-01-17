@@ -59,7 +59,7 @@ const SalaryInfoDialog = ({
   salary,
   isManage,
 }) => {
-  console.log("salary", salary);
+
   const [showDialogApproved, setShowDialogApproved] = useState(false);
   const [showDialogAddRequest, setShowDialogAddRequest] = useState(false);
   const [showDialogReasonRefusalDialog, setShowDialogReasonRefusalDialog] =
